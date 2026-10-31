@@ -14,6 +14,7 @@ class PublicHTML(HTMLParser):
         super().__init__()
         self.links = []
         self.css = []
+        self.scripts = []
         self.inputs = 0
         self.noindex = False
     def handle_starttag(self, tag, attrs):
@@ -22,6 +23,8 @@ class PublicHTML(HTMLParser):
             self.links.append(attributes["href"])
         if tag == "link" and "stylesheet" in (attributes.get("rel") or ""):
             self.css.append(attributes.get("href", ""))
+        if tag == "script" and attributes.get("src"):
+            self.scripts.append(attributes["src"])
         if tag == "input" and attributes.get("type") == "checkbox":
             self.inputs += 1
         if tag == "meta" and attributes.get("name", "").lower() == "robots":
@@ -54,9 +57,11 @@ for route in ROUTES:
     assert len(document.css) == 1, f"Expected one stylesheet: {page_url}"
     if route == "free/":
         assert document.inputs == 12, f"Checklist changed unexpectedly: {page_url}"
+        assert document.scripts == ["audit.js"], f"Audit application script missing: {page_url}"
+        assert 'id="audit-score"' in html and 'id="copy-audit"' in html, f"Audit controls missing: {page_url}"
     if route == "store/":
         assert "Checkout not active" in html, "A purchase appears enabled before review"
-    for href in document.links + document.css:
+    for href in document.links + document.css + document.scripts:
         if href.startswith(("#", "mailto:", "tel:")):
             continue
         target, _ = urldefrag(urljoin(page_url, href))
@@ -67,5 +72,5 @@ for route in ROUTES:
         if target not in checked:
             load(target)
             checked.add(target)
-    print("PASS", route or "/", "nav", len(document.links), "css", len(document.css))
+    print("PASS", route or "/", "nav", len(document.links), "css", len(document.css), "scripts", len(document.scripts))
 print(f"OK: {len(ROUTES)} live pages and {len(checked)} internal links/assets verified.")
