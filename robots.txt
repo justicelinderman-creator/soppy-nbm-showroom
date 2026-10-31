@@ -1,2 +1,4 @@
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://justicelinderman-creator.github.io/soppy-nbm-showroom/sitemap.xml
