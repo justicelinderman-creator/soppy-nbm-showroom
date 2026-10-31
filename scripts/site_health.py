@@ -53,6 +53,16 @@ for route in ROUTES:
     html = load(page_url)
     document = PublicHTML()
     document.feed(html)
+    # Pages publishing is asynchronous; on a push, the old HTML can still be served
+    # while the new source commit has already started the health workflow.
+    if route == "free/" and document.scripts != ["audit.js"]:
+        for attempt in range(12):
+            time.sleep(5)
+            html = load(page_url + "?deployment_probe=" + str(attempt))
+            document = PublicHTML()
+            document.feed(html)
+            if document.scripts == ["audit.js"]:
+                break
     assert document.noindex, f"Prelaunch privacy gate missing: {page_url}"
     assert len(document.css) == 1, f"Expected one stylesheet: {page_url}"
     if route == "free/":
