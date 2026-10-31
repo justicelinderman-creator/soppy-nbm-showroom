@@ -1,0 +1,32 @@
+name: Public showroom health check
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "23 14 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: showroom-health
+  cancel-in-progress: true
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Check public routes, stylesheet and prelaunch safety
+        shell: bash
+        run: |
+          set -euo pipefail
+          base="https://justicelinderman-creator.github.io/soppy-nbm-showroom/"
+          for path in "" "store/" "studio/" "free/" "privacy.html" "assets/site.css"; do
+            echo "Checking ${base}${path}"
+            status="$(curl -L --retry 2 --retry-delay 2 --max-time 18 -sS -o /tmp/showroom-response -w '%{http_code}' "${base}${path}")"
+            test "${status}" = "200" || { echo "Unexpected HTTP ${status} at ${path}"; exit 1; }
+            if [ "${path}" != "assets/site.css" ]; then
+              grep -q 'noindex,nofollow' /tmp/showroom-response || { echo "Prelaunch noindex missing at ${path}"; exit 1; }
+            fi
+          done
+          curl -sSL --max-time 18 "${base}store/" | grep -q "Checkout not active"
+          echo "PASS: All public routes responded and prelaunch payment gate remains closed."
