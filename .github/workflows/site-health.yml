@@ -13,20 +13,11 @@ concurrency:
 jobs:
   smoke:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 7
     steps:
-      - name: Check public routes, stylesheet and prelaunch safety
-        shell: bash
-        run: |
-          set -euo pipefail
-          base="https://justicelinderman-creator.github.io/soppy-nbm-showroom/"
-          for path in "" "store/" "studio/" "free/" "privacy.html" "assets/site.css"; do
-            echo "Checking ${base}${path}"
-            status="$(curl -L --retry 2 --retry-delay 2 --max-time 18 -sS -o /tmp/showroom-response -w '%{http_code}' "${base}${path}")"
-            test "${status}" = "200" || { echo "Unexpected HTTP ${status} at ${path}"; exit 1; }
-            if [ "${path}" != "assets/site.css" ]; then
-              grep -q 'noindex,nofollow' /tmp/showroom-response || { echo "Prelaunch noindex missing at ${path}"; exit 1; }
-            fi
-          done
-          curl -sSL --max-time 18 "${base}store/" | grep -q "Checkout not active"
-          echo "PASS: All public routes responded and prelaunch payment gate remains closed."
+      - name: Checkout audited public site source
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Validate live routes, internal links, stylesheets and prelaunch safety
+        run: python3 scripts/site_health.py
