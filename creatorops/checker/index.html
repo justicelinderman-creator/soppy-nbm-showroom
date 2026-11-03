@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index,follow">
+  <meta name="description" content="Free browser-only Roblox .rbxlx/.rbxmx scene checker. Check invisible colliders, large loose parts, inaccessible prompts, heavy particles and scene composition. No upload, sign-in or install.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <link rel="canonical" href="https://justicelinderman-creator.github.io/soppy-nbm-showroom/creatorops/checker/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cosie Release Radar — Free Roblox XML Scene Checker">
+  <meta property="og:description" content="Inspect an exported Roblox XML place or model locally in your browser. See actionable advisory findings and export a report. No file uploads.">
+  <meta property="og:url" content="https://justicelinderman-creator.github.io/soppy-nbm-showroom/creatorops/checker/">
+  <title>Release Radar | Free Roblox .rbxlx Scene Checklist | Cosie</title>
+  <link rel="stylesheet" href="../../assets/site.css">
+  <style>
+    .lab-wrap{max-width:1050px;margin:auto}
+    .lab-hero{padding:65px 0 38px}
+    .lab-hero h1{font-size:clamp(47px,7vw,78px);max-width:930px;margin:14px 0 23px}
+    .lab-tag{display:inline-flex;gap:9px;align-items:center;background:#172919;color:#c4edb3;border:1px solid #446a45;border-radius:30px;padding:5px 12px;font-size:12px;font-weight:800}
+    .lab-tag:before{content:"";display:block;width:8px;height:8px;border-radius:50%;background:#b5f673}
+    .drop{border:2px dashed #648365;background:linear-gradient(140deg,#142219,#0b120d);padding:28px;border-radius:14px;display:grid;gap:14px;text-align:center;place-items:center;outline-offset:4px}
+    .drop.is-over{border-color:var(--lime);background:#203c25}
+    .drop strong{font-size:21px}
+    .drop p{max-width:600px;margin:0;color:var(--muted)}
+    .upload-field{width:100%;max-width:460px;display:block;border:1px solid #586e59;border-radius:9px;padding:13px 10px;background:#0a110c;color:var(--ink);cursor:pointer}
+    .upload-field::file-selector-button{background:var(--lime);color:#11200e;font-weight:800;border:0;border-radius:5px;padding:8px 13px;margin-right:12px}
+    .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+    button{font:inherit;cursor:pointer}
+    .lab-button{border:1px solid var(--lime);border-radius:8px;padding:12px 17px;font-size:13px;font-weight:800;background:var(--lime);color:#10230c}
+    .lab-button.secondary{background:transparent;color:var(--ink);border-color:#57715a}
+    .lab-button:disabled{opacity:.4;cursor:not-allowed}
+    .status{font-size:13px;color:var(--muted);min-height:25px;margin:0}
+    .status.error{color:#ffa6a6}
+    .lab-panel{border:1px solid #314936;background:#111b13;border-radius:13px;padding:23px;margin:25px 0}
+    .metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+    .metric-box{background:#19271c;border:1px solid #36533b;border-radius:9px;padding:17px}
+    .metric-box strong{font-size:30px;display:block;letter-spacing:-.045em}
+    .metric-box small{display:block;color:#abc3aa;font-size:11px}
+    .metric-box .attention{color:#fac98b}
+    .findingbar{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:22px 0}
+    .findingbar label{font-size:13px;color:var(--muted)}
+    .findingbar select,.findingbar input{background:#0a140d;border:1px solid #527252;border-radius:7px;padding:10px 12px;color:var(--ink);font:inherit;font-size:14px;max-width:100%}
+    .findingbar input{flex:1;min-width:190px}
+    .finding-list{display:grid;gap:12px;list-style:none;padding:0;margin:12px 0}
+    .finding{border:1px solid #3b5541;border-left:4px solid #b1c9a7;border-radius:9px;background:#142119;padding:16px}
+    .finding[data-severity="HIGH"]{border-left-color:#ff998d}
+    .finding[data-severity="MEDIUM"]{border-left-color:#f7cc81}
+    .finding[data-severity="INFO"]{border-left-color:#8fbfe9}
+    .finding .minor{color:var(--muted);font-size:12px}
+    .finding h3{font-size:17px;margin:5px 0}
+    .finding p{color:#c0d1be;font-size:14px;margin:0 0 5px}
+    .finding code{overflow-wrap:anywhere;color:#d4ecd6;font:12px/1.5 ui-monospace,monospace}
+    .explain{color:var(--muted);font-size:13px}
+    details{border-top:1px solid var(--line);padding:16px 0;color:var(--muted)}
+    summary{cursor:pointer;color:var(--ink);font-weight:800}
+    .small-note{font-size:13px;color:#b8cbb7;max-width:850px}
+    [hidden]{display:none!important}
+    @media(max-width:650px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.lab-panel{padding:14px}.lab-hero{padding-top:40px}.drop{padding:18px 12px}.findingbar{align-items:stretch}.findingbar>*{width:100%!important}}
+  </style>
+  <script src="./radar.js" defer></script>
+</head>
+<body>
+  <div class="alert">FREE ROBLOX CREATOR UTILITY · FILE STAYS IN YOUR BROWSER · NO ACCOUNT OR PAYMENT</div>
+  <header><div class="shell nav">
+    <a class="logo" href="../../">SOPPY <em>×</em> COSIE</a>
+    <nav class="navlinks" aria-label="Navigation">
+      <a href="../">Studio Companion</a>
+      <a href="../../portfolio/facility-console/">3D commissions</a>
+      <a href="../../studio/">NBM Studio</a>
+      <a href="../../privacy.html">Privacy</a>
+    </nav>
+  </div></header>
+  <main class="shell lab-wrap">
+    <section class="lab-hero">
+      <span class="lab-tag">Actual working utility · version 1</span>
+      <p class="eyebrow" style="margin:20px 0 0">Cosie CreatorOps / Release Radar</p>
+      <h1>FIND THE <em>WEIRD STUFF</em><br>BEFORE YOU SHIP.</h1>
+      <p class="lead">Check an exported Roblox XML place or model for a few common scene configuration surprises. See the exact object, understand the risk, and get an action list you can review in Studio.</p>
+      <p class="small-note"><strong>Private by design:</strong> everything runs inside this browser tab. No uploads, accounts, network calls, analytics or server-side processing. We do not inspect script source. Nothing is changed in your Roblox file.</p>
+    </section>
+    <section class="lab-panel" aria-labelledby="checker-title">
+      <h2 id="checker-title" style="font-size:30px;margin-bottom:12px">Check your scene</h2>
+      <div class="drop" id="drop" tabindex="0" role="group" aria-label="Choose or drop an XML Roblox place or model">
+        <strong>Choose a .rbxlx or .rbxmx file</strong>
+        <p>Use Roblox Studio's XML-based place/model export, not the binary .rbxl or .rbxm format. Maximum 12 MB for predictable browser performance.</p>
+        <input class="upload-field" id="placeFile" type="file" accept=".rbxlx,.rbxmx" aria-label="Choose a Roblox XML place or model" />
+        <div class="controls">
+          <button class="lab-button secondary" type="button" id="demo">Try a synthetic sample</button>
+          <button class="lab-button secondary" type="button" id="reset">Clear results</button>
+        </div>
+      </div>
+      <p id="status" class="status" role="status" aria-live="polite">Ready. No file has been read.</p>
+    </section>
+    <section id="results" class="lab-panel" hidden aria-label="Inspection report">
+      <p class="eyebrow">Report / read-only / advisory findings</p>
+      <h2 style="font-size:31px;margin-bottom:12px">Your scene snapshot</h2>
+      <p class="small-note" id="reportMeta"></p>
+      <div class="metrics" aria-label="Scene counts">
+        <div class="metric-box"><strong id="metricObjects">—</strong><small>Instances</small></div>
+        <div class="metric-box"><strong id="metricParts">—</strong><small>Parts</small></div>
+        <div class="metric-box"><strong id="metricScripts">—</strong><small>Script objects (content ignored)</small></div>
+        <div class="metric-box"><strong class="attention" id="metricFindings">—</strong><small>Advisory findings</small></div>
+      </div>
+      <div class="findingbar">
+        <label for="filter">Show:</label>
+        <select id="filter" aria-label="Filter findings by severity">
+          <option value="ALL">All findings</option><option value="HIGH">High</option><option value="MEDIUM">Medium</option><option value="INFO">Info</option>
+        </select>
+        <input id="search" type="search" aria-label="Search finding paths" placeholder="Search object or issue…">
+        <button type="button" class="lab-button" id="download">Export report JSON</button>
+      </div>
+      <p id="findingCount" class="small-note" aria-live="polite"></p>
+      <ul id="findings" class="finding-list"></ul>
+      <p class="small-note">Advisory findings, not a bug certificate. Invisible colliders, loose geometry, particle effects and unusual ranges can all be intentional. Confirm in a real Studio playtest; this checker cannot measure FPS, run scripts, inspect DataStore logic, find every issue, or replace Roblox Scene Analysis.</p>
+    </section>
+    <section class="section" style="padding:50px 0">
+      <h2 style="font-size:31px">What gets checked?</h2>
+      <div class="cols">
+        <article class="card"><h3>Potential invisible obstacles</h3><p class="body">Parts with explicitly saved high transparency and enabled collisions. Useful to investigate; invisible hitboxes may be intentional.</p></article>
+        <article class="card"><h3>Large loose geometry</h3><p class="body">Large parts explicitly marked unanchored. These are physics-review candidates, not automatically wrong.</p></article>
+        <article class="card"><h3>Interaction and effects</h3><p class="body">Enabled prompts with a zero or negative activation distance, high-rate particle emitters, and unusually long-range active lights.</p></article>
+        <article class="card"><h3>Read-only scene composition</h3><p class="body">Instance and script-object counts. An exported XML file is a static snapshot, so live game memory and actual FPS are outside scope.</p></article>
+      </div>
+      <details><summary>How do I export the right file?</summary><p>In Roblox Studio, use File → Save to File and select the XML-based <code>.rbxlx</code> format, or export a model in XML <code>.rbxmx</code> format. A binary <code>.rbxl</code> or <code>.rbxm</code> won't work. Test with a disposable copy; exporting a file doesn't publish your game.</p></details>
+      <details><summary>Does Cosie upload or keep my game?</summary><p>No. This page contains no network requests or upload endpoints. Your browser reads your selected file locally and produces an in-memory report. No script contents are inspected, displayed or included in the export. Closing or refreshing the page clears the report. The optional JSON export is downloaded to your own device.</p></details>
+      <details><summary>Will this actually optimize my game?</summary><p>Not automatically. It identifies a few configuration patterns worth looking at. Roblox's built-in <a href="https://create.roblox.com/docs/performance-optimization/scene-analysis" rel="noreferrer noopener" target="_blank">Scene Analysis</a> and real-device profiling remain essential for performance work.</p></details>
+    </section>
+    <section class="section" style="padding:42px 0 90px">
+      <p class="eyebrow">Want the same workflow directly inside Studio?</p>
+      <h2 style="font-size:clamp(30px,5vw,45px)">MEET <em>STUDIO COMPANION.</em></h2>
+      <p class="lead">We're building a native Roblox plugin that brings inspection, object selection, previewed edits and Undo into a single Studio dock. It's still undergoing native testing and is not available for purchase or download.</p>
+      <div class="btns"><a class="btn" href="../">See the Studio Companion development preview</a><a class="btn dark" href="mailto:justice.linderman@gmail.com?subject=Cosie%20Release%20Radar%20Feedback">Send feedback about Release Radar</a></div>
+    </section>
+  </main>
+  <footer><div class="shell footer"><span>© 2026 SOPPY × NBM / Cosie Originals. Free local browser-only tool.</span><span>XML static inspection only · No uploads · No checkout</span></div></footer>
+</body>
+</html>
