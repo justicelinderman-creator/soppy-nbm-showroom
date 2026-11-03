@@ -70,7 +70,7 @@ class LaunchTest(unittest.TestCase):
     def test_sitemap_exact_urls(self):
         tree=ET.parse(ROOT/"sitemap.xml")
         locations=[t.text for t in tree.findall(".//{http://www.sitemaps.org/schemas/sitemap/0.9}loc")]
-        self.assertEqual(locations,[BASE+"/free/",BASE+"/studio/",BASE+"/portfolio/facility-console/"])
+        self.assertEqual(locations,[BASE+"/free/",BASE+"/studio/",BASE+"/portfolio/facility-console/",BASE+"/creatorops/"])
         self.assertEqual(len(set(locations)),3)
     def test_no_outbound_marketing(self):
         for key in ("portfolio","studio"):
