@@ -1,6 +1,6 @@
 # NBM Sales Funnel v1 — Review Candidate
 
-**Status:** REVIEW ONLY. No public customer intake, payment, deployment approval, or outbound marketing authorized by this document.
+**Status:** Owner authorized publication of the NBM business contact email for inbound project questions. This branch proposes a mailto-only contact route with no on-site form or checkout. No outbound marketing or payment-processing authorization follows from this.
 
 ## Goal
 
@@ -11,7 +11,7 @@ Turn the existing NBM showroom into a truthful, usable path from interested serv
 - Public static showroom, fictional DETAILFLOW demo, and browser-only 12-point free audit exist.
 - The Studio page advertises a proposed **$750** fixed-scope website + quote-flow pilot.
 - Main showroom pages intentionally use `noindex,nofollow`; the free audit is indexable.
-- Public inquiry collection, client payment, checkout, and delivery integrations are intentionally disabled.
+- No on-site forms, client payment, checkout or delivery integrations; the public business email is authorized for an optional user-initiated mailto inquiry.
 - No paid client, real-world conversion lift, or completed customer delivery is evidenced by this repository.
 - Outreach status is maintained outside this public codebase. **Do not commit prospect names, email addresses, or private conversations here.**
 
@@ -40,17 +40,17 @@ Do not promise more bookings, higher conversion, ranking, revenue, an unapproved
 
 ## Required launch gates — **all** before public intake
 
-- [ ] Owner approves a business contact identity/channel for public display; do not expose a personal inbox by assumption.
+- [x] Owner specifically approved justice.linderman@gmail.com for public NBM business contact in conversation on November 2, 2026.
 - [ ] Owner confirms business identity, terms and a valid mailing address for any marketing email where required. Obtain compliance review for applicable marketing rules, opt-out handling and suppression.
-- [ ] Privacy statement is updated for **actual** collection, processing, retention, anti-spam, processors and consent mechanics.
-- [ ] Intake route includes privacy notice, spam mitigation and a verified safe delivery destination.
-- [ ] Authorized end-to-end test reaches the intended inbox, with a truthful confirmation and an error/fallback case.
+- [x] Privacy statement updated for mailto-initiated email correspondence and no on-site collection. Future form, payment, or analytics functionality needs a new review.
+- [x] Mailto link has visible address and privacy notice; no on-site visitor submission or spam-collection endpoint. Incoming email deliverability must be checked separately before claiming tested conversions.
+- [ ] Verify an owner-authorized sample email actually reaches the inbox. Mailto opens the visitor's email app; it cannot verify visitor delivery or present an on-site form confirmation.
 - [ ] Written scope, fee, deposit, cancellation/refund policy, revisions, timing, hosting ownership and rights are approved.
 - [ ] Payment/invoicing provider and identity are explicitly authorized and verified. Never add credentials to GitHub.
-- [ ] Owner approves promoting the Studio page out of noindex. **Do not change store, demo, or private project indexing by accident.**
+- [ ] Separate owner approval needed to promote Studio out of noindex; current branch keeps the noindex posture. Do not change store, demo or other page indexing.
 - [ ] Run prelaunch tests and inspect the page on mobile, including keyboard navigation and no unexpected personal-data collection.
 
-**Go-live is a separate owner-approved action.** Merely merging this review PR must not launch intake.
+**Public mailto-only contact is owner-approved;** this does not authorize turning on on-site intake forms, payments, advertising, outreach or broad search indexing. The mailto link does not guarantee any buyer has written or been accepted.
 
 ## Immediate outreach experiment
 
@@ -63,8 +63,8 @@ Do not promise more bookings, higher conversion, ranking, revenue, an unapproved
 ## Review acceptance for this branch
 
 - Studio page states price, fit, deliverables, exclusions, process, and proof limitations accurately.
-- No form, active contact address, checkout, telemetry, or outbound script is added.
-- All new pages stay in the prelaunch/noindex posture.
+- A public mailto link to the authorized business inbox is added. No on-site form, checkout, telemetry, or outbound script is added.
+- Pages retain noindex pending separately reviewed search visibility.
 - Existing links to the fictional DETAILFLOW demo and free audit still work.
 - A local static contract test guards the preview state.
-- Existing public showroom remains untouched until a separately approved merge/release.
+- Existing public showroom changes only via an owner-approved, reviewed deployment after contract and privacy copy checks.
