@@ -7,12 +7,14 @@ from urllib.error import HTTPError, URLError
 import time
 
 BASE = "https://justicelinderman-creator.github.io/soppy-nbm-showroom/"
-ROUTES = ("", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html")
+ROUTES = ("", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html", "portfolio/facility-console/")
+INDEXABLE = {"free/", "studio/", "portfolio/facility-console/"}
 
 class PublicHTML(HTMLParser):
     def __init__(self):
         super().__init__()
         self.links = []
+        self.images = []
         self.css = []
         self.scripts = []
         self.checkboxes = 0
@@ -22,6 +24,8 @@ class PublicHTML(HTMLParser):
         attributes = dict(attrs)
         if tag == "a" and attributes.get("href"):
             self.links.append(attributes["href"])
+        if tag == "img" and attributes.get("src"):
+            self.images.append(attributes["src"])
         if tag == "link" and "stylesheet" in (attributes.get("rel") or ""):
             self.css.append(attributes.get("href", ""))
         if tag == "script" and attributes.get("src"):
@@ -58,7 +62,9 @@ for attempt in range(16):
         if ('content="index,follow"' in free_latest
             and "No messages or payments accepted" in demo_latest
             and "Sitemap:" in robots_latest
-            and "<urlset" in sitemap_latest):
+            and "<urlset" in sitemap_latest
+            and BASE + "studio/" in sitemap_latest
+            and BASE + "portfolio/facility-console/" in sitemap_latest):
             break
     except AssertionError:
         pass
@@ -68,6 +74,8 @@ for attempt in range(16):
 
 assert "Allow: /" in robots_latest, "robots.txt does not permit audit discovery"
 assert BASE + "free/" in sitemap_latest, "Free audit missing from sitemap"
+assert BASE + "studio/" in sitemap_latest, "Indexable paid-service route missing from sitemap"
+assert BASE + "portfolio/facility-console/" in sitemap_latest, "Original art portfolio missing from sitemap"
 assert BASE + "store/" not in sitemap_latest, "Unready checkout listed as indexable"
 
 checked = set()
@@ -77,24 +85,41 @@ for route in ROUTES:
     document = PublicHTML()
     document.feed(html)
     is_audit = route == "free/"
+    if route in INDEXABLE:
+        assert document.robots.replace(" ", "") == "index,follow", f"Approved page not indexable: {route}"
+        assert '<link rel="canonical"' in html, f"Canonical URL missing: {route}"
+    else:
+        assert "noindex" in document.robots, f"Unready page accidentally became indexable: {route}"
     if is_audit:
-        assert "index" in document.robots and "noindex" not in document.robots, "Free audit not indexable"
         assert document.checkboxes == 12, "The 12-point audit changed"
         assert document.scripts == ["audit.js"], "Free audit JavaScript missing"
         assert 'id="audit-score"' in html and 'id="copy-audit"' in html, "Audit interaction missing"
-        assert '<link rel="canonical"' in html, "Free audit canonical link missing"
-    else:
-        assert "noindex" in document.robots, f"Unready page accidentally became indexable: {route}"
     if route == "store/":
         assert "Checkout not active" in html, "Store checkout gate missing"
         assert "../demo/detailflow/" in html, "Store demo link missing"
     if route == "studio/":
         assert "../demo/detailflow/" in html, "Studio demo link missing"
+        assert "../portfolio/facility-console/" in html, "Studio original-portfolio link missing"
+        assert "mailto:justice.linderman@gmail.com" in html, "Studio mailto route missing"
+    if route == "portfolio/facility-console/":
+        assert len(document.images) == 3, "Portfolio original image set changed"
+        assert "mailto:justice.linderman@gmail.com" in html, "Original portfolio inquiry route absent"
+        assert "not</strong> independently verified" in html, "Original Blender QA limitations not disclosed"
+        assert '<meta property="og:image"' in html, "Portfolio social sharing art absent"
+        assert document.forms == 0 and not document.scripts, "Portfolio unexpectedly collects data or loads scripts"
+        for image in document.images:
+            image_url=urljoin(page_url,image)
+            with urlopen(Request(image_url,headers={"User-Agent":"NBM-Public-Site-Health/2.0"}),timeout=18) as image_response:
+                assert image_response.status == 200, f"Original image missing: {image_url}"
+                assert image_response.headers.get("Content-Type","").startswith("image/"), f"Incorrect original media: {image_url}"
+                assert image_response.read(1), f"Empty original image: {image_url}"
     if route == "demo/detailflow/":
         assert document.forms == 0, "Public product sample has a data-collecting form"
         assert "Submitting inquiries is disabled" in html, "Demo submit gate missing"
         assert not document.scripts, "Demo loads unexpected external script"
         assert not document.css, "Demo loads unexpected external stylesheet"
+    elif route == "portfolio/facility-console/":
+        assert not document.css, "Portfolio must remain self-contained"
     else:
         assert len(document.css) == 1, f"Expected one stylesheet at {route}"
     for href in document.links + document.css + document.scripts:
@@ -108,4 +133,4 @@ for route in ROUTES:
             checked.add(target)
     print("PASS", route or "/", "links", len(document.links),
           "css", len(document.css), "scripts", len(document.scripts))
-print("PASS: public navigation, prelaunch gates, safe demo and free-audit indexing.")
+print("PASS: public navigation, original portfolio media, safe draft store, consented email CTA and approved indexing.")
