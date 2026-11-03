@@ -68,6 +68,11 @@ class RadarContracts(unittest.TestCase):
     def test_no_user_tracking_or_hidden_checkout(self):
         for keyword in ("stripe.com","paypal.com","formspree","google-analytics.com","googletagmanager","buy now","download plugin"):
             self.assertNotIn(keyword,self.html.lower())
+    def test_human_qa_offer_requires_scope_and_no_files(self):
+        self.assertIn("Cosie%20Roblox%20QA%20Project%20Inquiry",self.html)
+        self.assertIn("agree on scope",self.html.lower())
+        self.assertIn("No private game files or credentials",self.html)
+        self.assertIn("checker and its report remain free",self.html)
     def test_existing_store_stays_unindexed(self):
         self.assertIn('content="noindex,nofollow"',(ROOT/"store/index.html").read_text(encoding="utf8"))
     def test_sources_document_real_limitations(self):
