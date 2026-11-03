@@ -1,6 +1,6 @@
-# NBM Sales Funnel v1 — Review Candidate
+# NBM Sales Funnel v1 — Public email-only inquiries and discoverability
 
-**Status:** Owner authorized publication of the NBM business contact email for inbound project questions. This branch proposes a mailto-only contact route with no on-site form or checkout. No outbound marketing or payment-processing authorization follows from this.
+**Status:** Owner authorized publication of the NBM business contact email for inbound project questions. The business publicly offers a mailto-only contact route with no on-site form or checkout. No outbound marketing or payment-processing authorization follows from this.
 
 ## Goal
 
@@ -10,7 +10,7 @@ Turn the existing NBM showroom into a truthful, usable path from interested serv
 
 - Public static showroom, fictional DETAILFLOW demo, and browser-only 12-point free audit exist.
 - The Studio page advertises a proposed **$750** fixed-scope website + quote-flow pilot.
-- Main showroom pages intentionally use `noindex,nofollow`; the free audit is indexable.
+- The main showroom, draft store, fictional demo and privacy page remain `noindex,nofollow`; the existing free audit is indexable. The owner has now requested broader legitimate exposure, so the Studio offer and a truthful original 3D portfolio are prepared for indexability after independently reviewed public release. Search indexing is not guaranteed.
 - No on-site forms, client payment, checkout or delivery integrations; the public business email is authorized for an optional user-initiated mailto inquiry.
 - No paid client, real-world conversion lift, or completed customer delivery is evidenced by this repository.
 - Outreach status is maintained outside this public codebase. **Do not commit prospect names, email addresses, or private conversations here.**
@@ -47,10 +47,10 @@ Do not promise more bookings, higher conversion, ranking, revenue, an unapproved
 - [ ] Verify an owner-authorized sample email actually reaches the inbox. Mailto opens the visitor's email app; it cannot verify visitor delivery or present an on-site form confirmation.
 - [ ] Written scope, fee, deposit, cancellation/refund policy, revisions, timing, hosting ownership and rights are approved.
 - [ ] Payment/invoicing provider and identity are explicitly authorized and verified. Never add credentials to GitHub.
-- [ ] Separate owner approval needed to promote Studio out of noindex; current branch keeps the noindex posture. Do not change store, demo or other page indexing.
+- [x] The owner's new explicit instruction to pursue public income and marketing authorizes a targeted, reversible discovery update for the real NBM Studio offer and original Cosie 3D portfolio; the store, fictional demo, privacy and main showroom keep their existing noindex gates. Actual buyer visits and search indexing remain unverified until independently measured.
 - [ ] Run prelaunch tests and inspect the page on mobile, including keyboard navigation and no unexpected personal-data collection.
 
-**Public mailto-only contact is owner-approved;** this does not authorize turning on on-site intake forms, payments, advertising, outreach or broad search indexing. The mailto link does not guarantee any buyer has written or been accepted.
+**Public mailto-only contact and targeted indexability of the verified Studio and original portfolio are authorized;** this does not authorize turning on on-site intake forms, payments, advertisements, unsolicited email campaigns or broad indexing of draft commercial products. The mailto link does not guarantee any buyer has written or been accepted.
 
 ## Immediate outreach experiment
 
@@ -64,7 +64,7 @@ Do not promise more bookings, higher conversion, ranking, revenue, an unapproved
 
 - Studio page states price, fit, deliverables, exclusions, process, and proof limitations accurately.
 - A public mailto link to the authorized business inbox is added. No on-site form, checkout, telemetry, or outbound script is added.
-- Pages retain noindex pending separately reviewed search visibility.
+- The two verified pages (NBM Studio and original console portfolio) are eligible for indexing after the focused deployment is verified. Draft store and all unrelated preview pages remain noindex; do not imply a Google ranking.
 - Existing links to the fictional DETAILFLOW demo and free audit still work.
 - A local static contract test guards the preview state.
 - Existing public showroom changes only via an owner-approved, reviewed deployment after contract and privacy copy checks.
