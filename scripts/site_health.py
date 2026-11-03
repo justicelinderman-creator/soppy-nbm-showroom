@@ -7,8 +7,8 @@ from urllib.error import HTTPError, URLError
 import time
 
 BASE = "https://justicelinderman-creator.github.io/soppy-nbm-showroom/"
-ROUTES = ("", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html", "portfolio/facility-console/", "creatorops/")
-INDEXABLE = {"free/", "studio/", "portfolio/facility-console/", "creatorops/"}
+ROUTES = ("", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html", "portfolio/facility-console/", "creatorops/", "creatorops/checker/")
+INDEXABLE = {"free/", "studio/", "portfolio/facility-console/", "creatorops/", "creatorops/checker/"}
 
 class PublicHTML(HTMLParser):
     def __init__(self):
@@ -65,7 +65,8 @@ for attempt in range(16):
             and "<urlset" in sitemap_latest
             and BASE + "studio/" in sitemap_latest
             and BASE + "portfolio/facility-console/" in sitemap_latest
-            and BASE + "creatorops/" in sitemap_latest):
+            and BASE + "creatorops/" in sitemap_latest
+            and BASE + "creatorops/checker/" in sitemap_latest):
             break
     except AssertionError:
         pass
@@ -78,6 +79,7 @@ assert BASE + "free/" in sitemap_latest, "Free audit missing from sitemap"
 assert BASE + "studio/" in sitemap_latest, "Indexable paid-service route missing from sitemap"
 assert BASE + "portfolio/facility-console/" in sitemap_latest, "Original art portfolio missing from sitemap"
 assert BASE + "creatorops/" in sitemap_latest, "Studio Companion educational preview missing from sitemap"
+assert BASE + "creatorops/checker/" in sitemap_latest, "Useful XML checker missing from sitemap"
 assert BASE + "store/" not in sitemap_latest, "Unready checkout listed as indexable"
 
 checked = set()
@@ -103,7 +105,16 @@ for route in ROUTES:
         assert "../demo/detailflow/" in html, "Studio demo link missing"
         assert "../portfolio/facility-console/" in html, "Studio original-portfolio link missing"
         assert "mailto:justice.linderman@gmail.com" in html, "Studio mailto route missing"
+    if route == "creatorops/checker/":
+        assert document.forms == 0, "No forms/remote intake allowed in free checker"
+        assert document.scripts == ["./engine.js", "./radar.js"], "Local read-only checker scripts changed"
+        assert "connect-src 'none'" in html, "Browser XML checker must block external requests"
+        assert 'type="file"' in html, "Local file chooser missing"
+        assert "No uploads" in html, "Local-only privacy disclosure missing"
+        assert 'id="results"' in html and 'id="download"' in html, "Working report UI missing"
     if route == "creatorops/":
+        assert "checker/" in html, "CreatorOps landing must link to the working free utility"
+
         assert document.forms == 0 and not document.scripts, "Beta-preview page unexpectedly has forms/scripts"
         assert "mailto:justice.linderman@gmail.com" in html, "Beta-interest email contact missing"
         assert "NOT AVAILABLE FOR DOWNLOAD" in html, "Unfinished plugin lacks release gate"
