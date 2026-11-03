@@ -1,4 +1,4 @@
-"""Static guardrails for the NBM Studio preview. No network or live customer data."""
+"""Static guardrails for the real email-only NBM Studio offer. No network or buyer data."""
 from html.parser import HTMLParser
 from pathlib import Path
 import re
@@ -41,8 +41,9 @@ class StudioPreviewTests(unittest.TestCase):
         cls.parser = Tags()
         cls.parser.feed(cls.html)
 
-    def test_prelaunch_indexing(self):
-        self.assertEqual(self.parser.metas.get("robots"), "noindex,nofollow")
+    def test_owner_approved_studio_indexing(self):
+        self.assertEqual(self.parser.metas.get("robots"), "index,follow")
+        self.assertIn("https://justicelinderman-creator.github.io/soppy-nbm-showroom/studio/", self.html)
         self.assertIn("PROJECT INQUIRIES OPEN BY EMAIL", self.html)
         self.assertIn("No online checkout", self.html)
 
@@ -73,7 +74,7 @@ class StudioPreviewTests(unittest.TestCase):
         self.assertEqual(self.parser.tags.count("main"), 1)
         self.assertEqual(len(self.parser.headings), 1)
         self.assertIn('aria-current="page"', self.html)
-        self.assertEqual(self.parser.tags.count("link"), 1)
+        self.assertEqual(self.parser.tags.count("link"), 2)
         self.assertNotIn("http://", self.html)
         self.assertIn("../demo/detailflow/", self.parser.links)
         self.assertIn("../free/", self.parser.links)
