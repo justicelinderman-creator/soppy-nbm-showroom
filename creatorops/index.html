@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://justicelinderman-creator.github.io/soppy-nbm-showroom/creatorops/">
+  <meta name="description" content="Original Roblox Studio productivity plugin in development: source-tested scene audits plus preview-before-apply QuickOps. Native Studio tests and seller release are still pending. Request an opt-in preview.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cosie Studio Companion — Audit, Preview, Undo | Private Beta Interest">
+  <meta property="og:description" content="Roblox Studio scene inspection plus safer batch editing, built for creators. Work in progress; no public plugin release or payments.">
+  <meta property="og:url" content="https://justicelinderman-creator.github.io/soppy-nbm-showroom/creatorops/">
+  <title>Cosie Studio Companion — Roblox Studio Creator Tool Preview</title>
+  <link rel="stylesheet" href="../assets/site.css">
+  <style>
+    .state{display:inline-flex;align-items:center;gap:9px;border:1px solid #64806b;color:#c9e5c6;background:#14231a;border-radius:999px;padding:7px 14px;font:700 12px/1.3 system-ui,sans-serif}
+    .state::before{content:"";width:8px;height:8px;border-radius:50%;background:#e6c37a}
+    .smallgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;margin:28px 0}
+    .mini{border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:20px}
+    .mini strong{font-size:20px;display:block;color:var(--lime);margin-bottom:7px}
+    .mono{font-family:ui-monospace,"Cascadia Code","Consolas",monospace;letter-spacing:0}
+    .workflow{display:flex;align-items:stretch;flex-wrap:wrap;gap:9px;margin:24px 0}
+    .workflow span{background:#15251a;border:1px solid #476849;border-radius:9px;padding:12px 16px;font-weight:750;font-size:13px}
+    .workflow b{display:flex;align-items:center;color:var(--lime)}
+    .guide-list{counter-reset:a;list-style:none;padding:0}
+    .guide-list li{counter-increment:a;position:relative;padding:15px 0 15px 48px;color:var(--muted);border-bottom:1px solid var(--line)}
+    .guide-list li::before{content:counter(a);position:absolute;left:0;top:16px;width:30px;height:30px;border:1px solid #61835d;border-radius:50%;display:grid;place-items:center;color:var(--lime);font-weight:750}
+    .notice{border-left:3px solid #cba466;background:#191a11;color:#e4dabd;padding:16px 19px;border-radius:0 8px 8px 0}
+    @media(max-width:740px){.smallgrid{grid-template-columns:1fr}.workflow b{display:none}}
+  </style>
+</head>
+<body>
+  <div class="alert">COSIE ORIGINALS · ROBLOX CREATOR TOOLS · INTEREST ONLY — NOT AVAILABLE FOR DOWNLOAD</div>
+  <header>
+    <div class="shell nav">
+      <a class="logo" href="../">SOPPY <em>×</em> COSIE</a>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="../studio/">Business websites</a>
+        <a href="../portfolio/facility-console/">3D portfolio</a>
+        <a href="../free/">Free website audit</a>
+        <a href="../privacy.html">Privacy</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="shell">
+        <span class="state">Private development candidate · Native Studio trial pending</span>
+        <p class="eyebrow" style="margin-top:27px">Made for Roblox Studio creators</p>
+        <h1>AUDIT.<br><em>PREVIEW.</em><br>UNDO.</h1>
+        <p class="lead">Cosie Studio Companion is an original productivity-plugin project combining scene inspection with deliberately previewed, undoable batch property edits. The purpose: reduce repetitive Explorer work without silently changing your game.</p>
+        <div class="btns">
+          <a class="btn" href="mailto:justice.linderman@gmail.com?subject=Cosie%20Studio%20Companion%20Beta%20Interest">Ask about the future private beta</a>
+          <a class="btn dark" href="#workflow">See the current feature scope</a>
+        </div>
+        <p class="fine">There is no downloadable beta, Creator Store listing, checkout, subscription, launch date or verified customer result today. Emailing us is an optional one-to-one inquiry, not newsletter signup.</p>
+      </div>
+    </section>
+
+    <section class="section" id="workflow">
+      <div class="shell">
+        <p class="eyebrow">The actual source-built design</p>
+        <h2>TWO WORKFLOWS.<br><em>ONE DOCK.</em></h2>
+        <div class="cols">
+          <article class="card">
+            <p class="tag">01 / ShipCheck</p>
+            <h3>Inspect before you publish.</h3>
+            <p class="body">Review Workspace or the selected scene for advisory flags such as unexpected invisible colliders, large loose parts, prompt settings and expensive particle use. Navigate to findings, compare complete scans against a baseline and export reports locally.</p>
+            <p class="fine">The audit does not inspect scripts for bugs, measure actual frame rate, or certify a game as bug-free.</p>
+          </article>
+          <article class="card">
+            <p class="tag">02 / QuickOps</p>
+            <h3>Make bounded changes, on purpose.</h3>
+            <p class="body">Preview numbered rename, anchor selected parts, disable collision, or disable shadows. Before applying, inspect exactly which selected objects and properties would change. A successful edit is designed to create one Studio Undo history entry.</p>
+            <p class="fine">At most 200 explicitly selected objects. No recursive edits. Renaming may break name-based script references; scripts are not automatically refactored.</p>
+          </article>
+        </div>
+        <div class="workflow" aria-label="Intended user workflow">
+          <span>Read-only audit</span><b aria-hidden="true">→</b>
+          <span>Select finding</span><b aria-hidden="true">→</b>
+          <span>Preview edit</span><b aria-hidden="true">→</b>
+          <span>Confirm Apply</span><b aria-hidden="true">→</b>
+          <span>Undo or rescan</span>
+        </div>
+        <p class="fine">This workflow is a functional source-level candidate, not a recorded screenshot or completed native user trial. It competes with existing tools; user feedback will determine whether it solves enough real problems.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell cols">
+        <div>
+          <p class="eyebrow">Useful right now, with or without the plugin</p>
+          <h2>A SMALL RELEASE<br><em>CHECKLIST.</em></h2>
+          <p class="lead">Roblox creators can check these areas manually today. A flag is a reason to investigate—not an automatic mistake.</p>
+          <p class="fine">These are editorial reminders, not proof of a game passing performance or security tests.</p>
+        </div>
+        <div>
+          <ol class="guide-list">
+            <li>Look for invisible collidable parts that could surprise players. Some are deliberate hitboxes; verify intent.</li>
+            <li>Review large loose parts and confirm they are meant to move under physics.</li>
+            <li>Test prompts from real player distances and make sure their settings match the interaction.</li>
+            <li>Inspect particle-heavy areas in a native playtest, especially on lower-end devices.</li>
+            <li>Verify spawn positions and movement paths with actual players, not only Explorer values.</li>
+            <li>Before batch renaming or changing collisions, preserve a version and confirm Undo/Redo restores the exact objects.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="status">
+      <div class="shell">
+        <p class="eyebrow">Testing status / November 2026</p>
+        <h2>PROOF, THEN <em>RELEASE.</em></h2>
+        <div class="smallgrid">
+          <div class="mini"><strong>Source tests</strong><p class="body">Offline Luau behavior and packaging checks have passed in a disposable test environment.</p></div>
+          <div class="mini"><strong>Native Studio</strong><p class="body">The integrated interface, live Undo/Redo and compressed docking still require an isolated real Studio test.</p></div>
+          <div class="mini"><strong>Paid release</strong><p class="body">No price, purchase link, seller payout, customer order or public install has been approved or verified.</p></div>
+        </div>
+        <p class="notice">We are not accepting files from anyone's production game as part of this interest inquiry. Do not email credentials, private scripts or proprietary assets. We will discuss testing permissions separately if a private preview becomes available.</p>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="shell cols">
+        <div>
+          <p class="eyebrow">Independent developer feedback welcome</p>
+          <h2>WHAT'S YOUR<br><em>BIGGEST STUDIO HEADACHE?</em></h2>
+          <p class="lead">Is it repeated Explorer edits? Debugging collisions? Renaming dozens of props? Let us know which tasks genuinely cost you time.</p>
+          <div class="btns">
+            <a class="btn" href="mailto:justice.linderman@gmail.com?subject=Cosie%20Studio%20Companion%20Beta%20Interest">Email your workflow feedback</a>
+          </div>
+          <p class="body">Contact: <a href="mailto:justice.linderman@gmail.com?subject=Cosie%20Studio%20Companion%20Beta%20Interest">justice.linderman@gmail.com</a></p>
+          <p class="fine">This opens your email app; it isn't a sign-up form or an automated mailing list. We can reply one-to-one about your comments. <a href="../privacy.html">Read our privacy notice</a>.</p>
+        </div>
+        <div class="outline">
+          <h3>Helpful feedback includes</h3>
+          <ul class="features">
+            <li>What kind of Roblox experience you make.</li>
+            <li>The repetitive task you want to eliminate.</li>
+            <li>Which alternative Studio tools you already use.</li>
+            <li>What a good preview, Undo and support experience should feel like.</li>
+          </ul>
+          <p class="fine">No claimed time savings, revenue, automatic world generation or future release date. Any eventual installation or sale will be reviewed separately.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer><div class="shell footer"><span>© 2026 SOPPY × NBM / Cosie Originals · Original creator tooling in development.</span><span>No installer, checkout or user tracking on this page.</span></div></footer>
+</body>
+</html>
