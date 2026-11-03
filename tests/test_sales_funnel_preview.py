@@ -43,15 +43,18 @@ class StudioPreviewTests(unittest.TestCase):
 
     def test_prelaunch_indexing(self):
         self.assertEqual(self.parser.metas.get("robots"), "noindex,nofollow")
-        self.assertIn("PRELAUNCH SHOWROOM", self.html)
-        self.assertIn("Project requests not open", self.html)
+        self.assertIn("PROJECT INQUIRIES OPEN BY EMAIL", self.html)
+        self.assertIn("No online checkout", self.html)
 
     def test_no_collection_or_checkout(self):
         for tag in ("form", "input", "textarea", "select", "button", "script", "iframe"):
             self.assertNotIn(tag, self.parser.tags, f"Unexpected active element: {tag}")
-        for value in ("mailto:", "tel:", "https://checkout.", "stripe.com", "paypal.com", "formspree", "onclick=", "fetch(", "localStorage"):
+        for value in ("tel:", "https://checkout.", "stripe.com", "paypal.com", "formspree", "onclick=", "fetch(", "localStorage"):
             self.assertNotIn(value.lower(), self.html.lower())
-        self.assertGreaterEqual(self.parser.disabled_ctas, 1)
+        self.assertEqual(self.parser.disabled_ctas, 0)
+        self.assertEqual(sum(h.startswith("mailto:") for h in self.parser.links), 3)
+        self.assertIn("justice.linderman@gmail.com", self.html)
+        self.assertIn("not an on-site form", self.html.lower())
 
     def test_offer_consistent(self):
         for value in (
@@ -74,6 +77,7 @@ class StudioPreviewTests(unittest.TestCase):
         self.assertNotIn("http://", self.html)
         self.assertIn("../demo/detailflow/", self.parser.links)
         self.assertIn("../free/", self.parser.links)
+        self.assertIn("../privacy.html", self.parser.links)
         for href in self.parser.links:
             if href.startswith("#"):
                 self.assertIn(href[1:], self.parser.ids, f"Missing internal target: {href}")
