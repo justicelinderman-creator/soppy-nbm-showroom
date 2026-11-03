@@ -50,12 +50,17 @@ with sync_playwright() as pw:
             page.locator("#download").click()
         download=dl.value
         data=json.loads(Path(download.path()).read_text(encoding="utf8"))
-        check(screen+" report is sanitized JSON",data["counts"]["scripts"]==1 and "script" not in json.dumps(data).lower().replace("script objects", "") or data["counts"]["scripts"]==1)
+        check(screen+" demo report count valid",data["counts"]["scripts"]==1)
         check(screen+" downloadable original demo report",data["sourceLabel"].startswith("Synthetic") and data["findingsShown"]==5)
         page.locator("#placeFile").set_input_files({"name":"private_scene.rbxlx","mimeType":"application/xml","buffer":fixture})
         check(screen+" XML upload local processed",page.locator("#results").is_visible() and read(page,"metricFindings")=="1")
         check(screen+" privacy canary not rendered","PRIVATE_TEST_SCRIPT_CONTENT_DO_NOT_DISPLAY" not in page.locator("body").inner_text())
         check(screen+" XML filename never executed",page.locator("li.finding img").count()==0 and page.locator("li.finding").count()==1)
+        with page.expect_download(timeout=8000) as xml_dl:
+            page.locator("#download").click()
+        local_json=Path(xml_dl.value.path()).read_text(encoding="utf8")
+        check(screen+" no private script content exported","PRIVATE_TEST_SCRIPT_CONTENT_DO_NOT_DISPLAY" not in local_json)
+        check(screen+" XML filename only remains local",json.loads(local_json)["origin"]=="LOCAL_BROWSER_ONLY")
         check(screen+" no unexpected network",len(requests)==0)
         page.locator("#placeFile").set_input_files({"name":"invalid.rbxl","mimeType":"application/octet-stream","buffer":b"binary not XML"})
         check(screen+" binary rejected",page.locator("#results").is_hidden() and "binary" in read(page,"status").lower())
