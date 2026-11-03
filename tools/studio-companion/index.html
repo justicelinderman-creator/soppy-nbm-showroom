@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="index,follow">
+  <title>Roblox Studio Release Checklist | Cosie Studio Companion — Private Beta Preview</title>
+  <meta name="description" content="A free practical Roblox Studio release checklist. See the source-built Cosie Studio Companion: scene audits and preview-first selected-object editing. Private native tests pending; no download or checkout.">
+  <link rel="canonical" href="https://justicelinderman-creator.github.io/soppy-nbm-showroom/tools/studio-companion/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Cosie Studio Companion | Roblox Developer Workflow Checklist">
+  <meta property="og:description" content="Check Roblox scenes, find common release risks, and preview safe selected-object fixes. Private test candidate — request a future pilot, no paid release yet.">
+  <link rel="stylesheet" href="../../assets/site.css">
+</head>
+<body>
+  <div class="alert">COSIE CREATOR TOOLS · DEVELOPMENT PREVIEW · NO INSTALLER OR CHECKOUT</div>
+  <header><div class="shell nav">
+    <a class="logo" href="../../">SOPPY <em>×</em> NBM / COSIE</a>
+    <nav class="navlinks" aria-label="Primary">
+      <a href="../../">Home</a>
+      <a href="../../studio/">NBM Studio</a>
+      <a href="../../free/">Website audit</a>
+      <a href="../../portfolio/facility-console/">Original 3D work</a>
+      <a href="../../privacy.html">Privacy</a>
+    </nav>
+  </div></header>
+  <main>
+    <section class="hero"><div class="shell">
+      <p class="eyebrow">Roblox Studio / Faster editing / Original private-beta development</p>
+      <h1>BUILD GAMES.<br><em>LESS BUSYWORK.</em></h1>
+      <p class="lead">Every creator knows the cycle: find a stray collision, select the right part, change a property, and repeat. We're testing <strong>Cosie Studio Companion</strong> to combine scene-review guidance with clearly previewed, undoable edits of selected objects.</p>
+      <div class="btns">
+        <a class="btn" href="#release-checklist">Use the free release checklist</a>
+        <a class="btn dark" href="mailto:justice.linderman@gmail.com?subject=Cosie%20Studio%20Companion%20Private%20Beta%20Interest">Ask about the future beta</a>
+      </div>
+      <p class="fine">Current status: source-built candidate with offline tests. Native Studio clickable UI acceptance and independent creator testing are incomplete. There is <strong>no public plugin download, paid listing, subscription or promise of time saved</strong> here.</p>
+    </div></section>
+
+    <section class="section" id="workflow"><div class="shell">
+      <p class="eyebrow">One Studio tool / Two complementary workflows</p>
+      <div class="cols">
+        <article class="card">
+          <p class="tag">01 / SHIPCHECK — READ ONLY</p>
+          <h2>Find the thing worth checking.</h2>
+          <p class="body">The existing scene-audit engine can review a Workspace or explicit selection, show advisory findings, jump to an object, and compare a complete scan against a baseline. It covers heuristic risks like invisible colliders, giant loose parts, zero-range prompts, constraints, effects and default spawns.</p>
+          <p class="fine">Not a frame-rate profiler, script security scanner, automatic game builder or guarantee that your game has no bugs.</p>
+        </article>
+        <article class="card">
+          <p class="tag">02 / QUICKOPS — PREVIEW BEFORE EDIT</p>
+          <h2>Skip repetitive Explorer clicks.</h2>
+          <p class="body">In the new private candidate, select specific objects, preview numbered names or property updates (Anchored, CanCollide, CastShadow), and explicitly apply only the selected changes using a native Studio Undo recording. A few audit findings can suggest an edit preview; they never auto-fix the place.</p>
+          <p class="fine">Only the selected supported instances are considered, up to 200. Renaming can break name-based script references; it does not rewrite code. Real dock/Undo acceptance is still pending.</p>
+        </article>
+      </div>
+    </div></section>
+
+    <section class="section" id="release-checklist"><div class="shell">
+      <p class="eyebrow">Free to use now / No signup required</p>
+      <h2>THE ROBLOX UPDATE<br><em>CHECKLIST.</em></h2>
+      <p class="lead">Before your next Studio publish, inspect these eight areas manually. They aren't a replacement for gameplay tests.</p>
+      <div class="cols">
+        <article class="card">
+          <h3>01 — Invisible geometry</h3>
+          <p class="body">Make sure fully transparent collidable parts are intended blockers, hitboxes, or boundaries—not forgotten obstacles.</p>
+        </article>
+        <article class="card">
+          <h3>02 — Large, loose objects</h3>
+          <p class="body">Inspect large unanchored collidable objects. Check intended physics and constraints before deciding to anchor anything.</p>
+        </article>
+        <article class="card">
+          <h3>03 — Player interaction</h3>
+          <p class="body">Test enabled ProximityPrompts, activation distance, visibility and reach with actual player movement.</p>
+        </article>
+        <article class="card">
+          <h3>04 — Spawn behavior</h3>
+          <p class="body">Check spawn spacing or your custom spawn code in a real playtest, rather than relying only on default SpawnLocation counts.</p>
+        </article>
+        <article class="card">
+          <h3>05 — Constraints and attachments</h3>
+          <p class="body">Review required connection endpoints on mechanical parts and verify the desired behavior in Play mode.</p>
+        </article>
+        <article class="card">
+          <h3>06 — Effects and geometry budgets</h3>
+          <p class="body">Check particle rates and large part counts, then profile on your actual target devices. Heuristic counts alone aren't FPS measurements.</p>
+        </article>
+        <article class="card">
+          <h3>07 — Name-based code references</h3>
+          <p class="body">Before batch renaming assets, search your own code for hardcoded instance names and verify the affected systems afterward.</p>
+        </article>
+        <article class="card">
+          <h3>08 — Record the before and after</h3>
+          <p class="body">Save a clean version and compare the same test scenarios after each update. Verify what changed and what still needs attention.</p>
+        </article>
+      </div>
+      <p class="fine">This is original general developer guidance. No game or script is uploaded, inspected or scored by this website.</p>
+    </div></section>
+
+    <section class="section" id="beta"><div class="shell cols">
+      <div>
+        <p class="eyebrow">Small, opt-in private preview</p>
+        <h2>HELP US MAKE IT<br><em>ACTUALLY USEFUL.</em></h2>
+        <p class="lead">We want feedback from Roblox developers about the annoying actions they repeat every day—not empty hype or fake performance claims. If you're interested in a future beta, send a short email about your workflow. We'll only share an installer after native QA and release terms are approved.</p>
+        <div class="btns">
+          <a class="btn" href="mailto:justice.linderman@gmail.com?subject=Cosie%20Studio%20Companion%20Private%20Beta%20Interest">Email beta interest</a>
+        </div>
+        <p class="body">Contact: <a href="mailto:justice.linderman@gmail.com?subject=Cosie%20Studio%20Companion%20Private%20Beta%20Interest">justice.linderman@gmail.com</a></p>
+        <p class="fine">Email is voluntary, not an automated list signup. Please don't send private games, credentials or Roblox project files. <a href="../../privacy.html">Read our privacy notice</a>.</p>
+      </div>
+      <article class="outline">
+        <h3>What we'd like to learn</h3>
+        <ul class="features">
+          <li>Which Studio tasks currently waste your time?</li>
+          <li>What free plugins already solve them well?</li>
+          <li>Which edits need a better preview or Undo?</li>
+          <li>What release checks do you repeat before publishing?</li>
+          <li>Would you use a single focused tool combining these workflows?</li>
+        </ul>
+        <p class="fine">This is a development preview only. No price or availability date is committed, and no public installer is linked.</p>
+      </article>
+    </div></section>
+  </main>
+  <footer><div class="shell footer">
+    <span>© 2026 Cosie Originals / SOPPY × NBM · Original software development.</span>
+    <span>No installer, checkout, telemetry, claimed customers or revenue on this page.</span>
+  </div></footer>
+</body>
+</html>
