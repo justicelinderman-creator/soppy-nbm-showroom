@@ -52,7 +52,7 @@ class LaunchTest(unittest.TestCase):
         self.assertEqual(len([x for x in p.links if x.startswith("mailto:justice.linderman@gmail.com")]),2)
         self.assertIn("../../privacy.html",p.links)
         self.assertIn("../../studio/",p.links)
-        self.assertNotIn("automatic price quotation",t.lower().replace("no automatic price quotation",""))
+        self.assertIn("There is no on-site contact form, payment checkout, automatic price quotation or contract.",t)
     def test_no_live_forms_or_checkout(self):
         for key in ("portfolio","studio"):
             t,p=self.pages[key]
