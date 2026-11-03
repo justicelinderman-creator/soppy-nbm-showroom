@@ -7,8 +7,8 @@ from urllib.error import HTTPError, URLError
 import time
 
 BASE = "https://justicelinderman-creator.github.io/soppy-nbm-showroom/"
-ROUTES = ("", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html", "portfolio/facility-console/")
-INDEXABLE = {"free/", "studio/", "portfolio/facility-console/"}
+ROUTES = ("", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html", "portfolio/facility-console/", "creatorops/")
+INDEXABLE = {"free/", "studio/", "portfolio/facility-console/", "creatorops/"}
 
 class PublicHTML(HTMLParser):
     def __init__(self):
@@ -64,7 +64,8 @@ for attempt in range(16):
             and "Sitemap:" in robots_latest
             and "<urlset" in sitemap_latest
             and BASE + "studio/" in sitemap_latest
-            and BASE + "portfolio/facility-console/" in sitemap_latest):
+            and BASE + "portfolio/facility-console/" in sitemap_latest
+            and BASE + "creatorops/" in sitemap_latest):
             break
     except AssertionError:
         pass
@@ -76,6 +77,7 @@ assert "Allow: /" in robots_latest, "robots.txt does not permit audit discovery"
 assert BASE + "free/" in sitemap_latest, "Free audit missing from sitemap"
 assert BASE + "studio/" in sitemap_latest, "Indexable paid-service route missing from sitemap"
 assert BASE + "portfolio/facility-console/" in sitemap_latest, "Original art portfolio missing from sitemap"
+assert BASE + "creatorops/" in sitemap_latest, "Studio Companion educational preview missing from sitemap"
 assert BASE + "store/" not in sitemap_latest, "Unready checkout listed as indexable"
 
 checked = set()
@@ -101,6 +103,12 @@ for route in ROUTES:
         assert "../demo/detailflow/" in html, "Studio demo link missing"
         assert "../portfolio/facility-console/" in html, "Studio original-portfolio link missing"
         assert "mailto:justice.linderman@gmail.com" in html, "Studio mailto route missing"
+    if route == "creatorops/":
+        assert document.forms == 0 and not document.scripts, "Beta-preview page unexpectedly has forms/scripts"
+        assert "mailto:justice.linderman@gmail.com" in html, "Beta-interest email contact missing"
+        assert "NOT AVAILABLE FOR DOWNLOAD" in html, "Unfinished plugin lacks release gate"
+        assert "Native Studio trial pending" in html, "Native acceptance limitations missing"
+        assert "no downloadable beta" in html.lower(), "Beta interest may be mistaken for an active plugin"
     if route == "portfolio/facility-console/":
         assert len(document.images) == 3, "Portfolio original image set changed"
         assert "mailto:justice.linderman@gmail.com" in html, "Original portfolio inquiry route absent"
