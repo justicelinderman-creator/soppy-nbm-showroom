@@ -1,0 +1,23 @@
+name: NBM sales-funnel preview safety
+on:
+  pull_request:
+    paths:
+      - "studio/index.html"
+      - "docs/nbm-sales-funnel-v1.md"
+      - "docs/pilot-scope-template.md"
+      - "tests/test_sales_funnel_preview.py"
+      - ".github/workflows/sales-funnel-preview.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-preview-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out proposed revision
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Verify no live intake, tracking, or checkout
+        run: python3 -m unittest discover -s tests -p 'test_sales_funnel_preview.py' -v

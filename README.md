@@ -1,3 +1,3 @@
 # SOPPY / NBM Public Showroom
 
-Preview-only static site. All pages deliberately carry noindex, no functional payment or inquiry form. No business/prospect data or product ZIPs are present. Checkouts and live contact capture require owner approval, commercial terms and end-to-end testing before going live. Pages: /, /store/, /studio/, /free/, /privacy.html.
+Static showroom with owner-approved NBM email inquiries (mailto link to justice.linderman@gmail.com). All pages deliberately carry noindex pending a later search-indexing decision. No on-site form, checkout, visitor tracking, prospect data, account credentials or product ZIPs are present. Any added customer form, merchant checkout or outbound advertising requires separate approval, privacy/terms review and end-to-end testing. Pages: /, /store/, /studio/, /free/, /privacy.html.
