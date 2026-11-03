@@ -44,7 +44,7 @@ class RadarContracts(unittest.TestCase):
         self.assertNotIn("new Blob([xml",self.ui)
     def test_roblox_xml_supported_binary_rejected(self):
         self.assertIn(".rbxlx,.rbxmx",self.html)
-        self.assertIn("Binary .rbxl",self.html)
+        self.assertIn("not the binary .rbxl",self.html)
         self.assertIn("12 MB",self.html)
     def test_transparent_physics_and_interaction_rules(self):
         for rule in ("INVISIBLE_SOLID","INVALID_SIZE","LARGE_UNANCHORED","PROMPT_ZERO_RANGE","PARTICLE_HIGH_RATE","WIDE_BRIGHT_LIGHT"):
@@ -72,6 +72,6 @@ class RadarContracts(unittest.TestCase):
         self.assertIn('content="noindex,nofollow"',(ROOT/"store/index.html").read_text(encoding="utf8"))
     def test_sources_document_real_limitations(self):
         self.assertIn("cannot measure FPS",self.html)
-        self.assertIn("does not inspect script",self.html.lower())
+        self.assertIn("we do not inspect script source",self.html.lower())
         self.assertIn("No uploads",self.html)
 if __name__=="__main__":unittest.main()
