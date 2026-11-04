@@ -13,6 +13,7 @@ class Tags(HTMLParser):
     def __init__(self):
         super().__init__()
         self.tags = []
+        self.elements = []
         self.links = []
         self.ids = set()
         self.metas = {}
@@ -22,6 +23,7 @@ class Tags(HTMLParser):
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         self.tags.append(tag)
+        self.elements.append((tag, attrs))
         if "id" in attrs:
             self.ids.add(attrs["id"])
         if tag == "a":
@@ -48,8 +50,20 @@ class StudioPreviewTests(unittest.TestCase):
         self.assertIn("No online checkout", self.html)
 
     def test_no_collection_or_checkout(self):
-        for tag in ("form", "input", "textarea", "select", "button", "script", "iframe"):
+        for tag in ("form", "input", "select", "iframe"):
             self.assertNotIn(tag, self.parser.tags, f"Unexpected active element: {tag}")
+        # Read-only copy controls do not collect or submit visitor data.
+        scripts = [attrs for tag, attrs in self.parser.elements if tag == "script"]
+        self.assertEqual([s.get("src") for s in scripts], ["../assets/inquiry.js"])
+        textareas = [attrs for tag, attrs in self.parser.elements if tag == "textarea"]
+        self.assertEqual(len(textareas), 3)
+        self.assertTrue(all("readonly" in attrs and "name" not in attrs for attrs in textareas))
+        buttons = [attrs for tag, attrs in self.parser.elements if tag == "button"]
+        self.assertEqual(len(buttons), 3)
+        self.assertTrue(all(attrs.get("type") == "button" and attrs.get("data-copy-target") for attrs in buttons))
+        copy_script = (ROOT / "assets/inquiry.js").read_text(encoding="utf-8")
+        for api in ("fetch(", "XMLHttpRequest", "sendBeacon", "localStorage", "sessionStorage", "window.open", "location."):
+            self.assertNotIn(api, copy_script)
         for value in ("tel:", "https://checkout.", "stripe.com", "paypal.com", "formspree", "onclick=", "fetch(", "localStorage"):
             self.assertNotIn(value.lower(), self.html.lower())
         self.assertEqual(self.parser.disabled_ctas, 0)
@@ -74,7 +88,8 @@ class StudioPreviewTests(unittest.TestCase):
         self.assertEqual(self.parser.tags.count("main"), 1)
         self.assertEqual(len(self.parser.headings), 1)
         self.assertIn('aria-current="page"', self.html)
-        self.assertEqual(self.parser.tags.count("link"), 2)
+        self.assertEqual(self.parser.tags.count("link"), 3)
+        self.assertEqual([attrs.get("href") for tag,attrs in self.parser.elements if tag=="link" and attrs.get("rel")=="stylesheet"], ["../assets/site.css", "../assets/inquiry.css"])
         self.assertNotIn("http://", self.html)
         self.assertIn("../demo/detailflow/", self.parser.links)
         self.assertIn("../free/", self.parser.links)

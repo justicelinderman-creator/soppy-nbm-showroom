@@ -7,9 +7,9 @@ ROOT=Path(__file__).resolve().parents[1]
 BASE="https://justicelinderman-creator.github.io/soppy-nbm-showroom"
 class Tags(HTMLParser):
     def __init__(self):
-        super().__init__();self.links=[];self.images=[];self.meta={};self.canon=[];self.tags=[]
+        super().__init__();self.links=[];self.images=[];self.meta={};self.canon=[];self.tags=[];self.elements=[]
     def handle_starttag(self,tag,attrs):
-        d=dict(attrs);self.tags.append(tag)
+        d=dict(attrs);self.tags.append(tag);self.elements.append((tag,d))
         if tag=="a": self.links.append(d.get("href",""))
         if tag=="img": self.images.append(d)
         if tag=="meta" and d.get("name"):self.meta[d["name"]]=d.get("content","")
@@ -56,8 +56,11 @@ class LaunchTest(unittest.TestCase):
     def test_no_live_forms_or_checkout(self):
         for key in ("portfolio","studio"):
             t,p=self.pages[key]
-            for tag in ("form","input","iframe","script"):
+            for tag in ("form","input","iframe"):
                 self.assertNotIn(tag,p.tags,(key,tag))
+            scripts=[attrs.get("src") for tag,attrs in p.elements if tag=="script"]
+            self.assertEqual(scripts,["../assets/inquiry.js"] if key=="studio" else [])
+            self.assertTrue(all("readonly" in attrs for tag,attrs in p.elements if tag=="textarea"))
             for expr in ("stripe.com","paypal.com","formspree","fetch(","onclick="):
                 self.assertNotIn(expr,t.lower())
     def test_main_and_studio_link_portfolio(self):
