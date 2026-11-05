@@ -4,6 +4,8 @@ from html.parser import HTMLParser
 from urllib.parse import urljoin, urldefrag
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
+from hashlib import sha256
+from pathlib import Path
 import time
 
 BASE = "https://justicelinderman-creator.github.io/soppy-nbm-showroom/"
@@ -37,12 +39,12 @@ class PublicHTML(HTMLParser):
         if tag == "meta" and attributes.get("name", "").lower() == "robots":
             self.robots = attributes.get("content", "").lower()
 
-def load(url, attempts=3):
+def load(url, attempts=3, timeout=18):
     last = None
     for attempt in range(attempts):
         try:
             request = Request(url, headers={"User-Agent": "NBM-Public-Site-Health/2.0"})
-            with urlopen(request, timeout=18) as response:
+            with urlopen(request, timeout=timeout) as response:
                 assert response.status == 200, f"HTTP {response.status}: {url}"
                 return response.read().decode("utf-8")
         except (HTTPError, URLError, TimeoutError, AssertionError) as exc:
@@ -51,28 +53,58 @@ def load(url, attempts=3):
                 time.sleep(2 * (attempt + 1))
     raise AssertionError(f"HTTP/read failure {url}: {last}")
 
-# GitHub Pages can lag behind the source commit that starts Actions.
-# Wait until all newly published release assets are actually live.
-for attempt in range(16):
-    try:
-        free_latest = load(BASE + "free/?release=" + str(attempt), attempts=1)
-        demo_latest = load(BASE + "demo/detailflow/?release=" + str(attempt), attempts=1)
-        robots_latest = load(BASE + "robots.txt?release=" + str(attempt), attempts=1)
-        sitemap_latest = load(BASE + "sitemap.xml?release=" + str(attempt), attempts=1)
-        if ('content="index,follow"' in free_latest
-            and "No messages or payments accepted" in demo_latest
-            and "Sitemap:" in robots_latest
-            and "<urlset" in sitemap_latest
-            and BASE + "studio/" in sitemap_latest
-            and BASE + "portfolio/facility-console/" in sitemap_latest
-            and BASE + "creatorops/" in sitemap_latest
-            and BASE + "creatorops/checker/" in sitemap_latest):
+def wait_for_release():
+    """Wait for this checkout's public assets, not just older discovery pages."""
+    root = Path(__file__).resolve().parents[1]
+    expected = {route: (root / source).read_text(encoding="utf-8") for route, source in (
+        ("studio/", "studio/index.html"),
+        ("assets/inquiry.css", "assets/inquiry.css"),
+        ("assets/inquiry.js", "assets/inquiry.js"),
+        ("creatorops/checker/radar.js", "creatorops/checker/radar.js"),
+    )}
+    release_key = sha256("\0".join(expected.values()).encode("utf-8")).hexdigest()[:16]
+    deadline = time.monotonic() + 90
+    attempt = 0
+    last = "Release assets are not current"
+
+    def current(route):
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise AssertionError("Release wait budget exhausted")
+        url = BASE + route + "?release=" + release_key + "&attempt=" + str(attempt)
+        value = load(url, attempts=1, timeout=min(18, remaining))
+        if time.monotonic() >= deadline:
+            raise AssertionError("Release wait budget exhausted")
+        return value
+
+    while time.monotonic() < deadline:
+        try:
+            free_latest = current("free/")
+            demo_latest = current("demo/detailflow/")
+            robots_latest = current("robots.txt")
+            sitemap_latest = current("sitemap.xml")
+            assert ('content="index,follow"' in free_latest
+                and "No messages or payments accepted" in demo_latest
+                and "Sitemap:" in robots_latest
+                and "<urlset" in sitemap_latest
+                and BASE + "studio/" in sitemap_latest
+                and BASE + "portfolio/facility-console/" in sitemap_latest
+                and BASE + "creatorops/" in sitemap_latest
+                and BASE + "creatorops/checker/" in sitemap_latest), "Core release pages are not ready"
+            for route, content in expected.items():
+                assert current(route) == content, "Release asset not current: " + route
+            return free_latest, demo_latest, robots_latest, sitemap_latest
+        except (AssertionError, UnicodeError) as exc:
+            last = str(exc)
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
             break
-    except AssertionError:
-        pass
-    if attempt == 15:
-        raise AssertionError("GitHub Pages did not finish publishing the latest public release")
-    time.sleep(5)
+        time.sleep(min(5, remaining))
+        attempt += 1
+    raise AssertionError("GitHub Pages did not finish publishing the latest public release within 90 seconds: " + last)
+
+
+free_latest, demo_latest, robots_latest, sitemap_latest = wait_for_release()
 
 assert "Allow: /" in robots_latest, "robots.txt does not permit audit discovery"
 assert BASE + "free/" in sitemap_latest, "Free audit missing from sitemap"
