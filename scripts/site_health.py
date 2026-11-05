@@ -139,6 +139,9 @@ for route in ROUTES:
         assert not document.css, "Demo loads unexpected external stylesheet"
     elif route == "portfolio/facility-console/":
         assert not document.css, "Portfolio must remain self-contained"
+    elif route == "studio/":
+        assert document.css == ["../assets/site.css", "../assets/inquiry.css"], "Studio inquiry stylesheets changed"
+        assert document.scripts == ["../assets/inquiry.js"], "Studio copy-only inquiry script changed"
     else:
         assert len(document.css) == 1, f"Expected one stylesheet at {route}"
     for href in document.links + document.css + document.scripts:

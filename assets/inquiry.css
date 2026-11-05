@@ -1,0 +1,16 @@
+.inquiry-copy { min-width: 0; scroll-margin-top: 110px; }
+.inquiry-copy label { display: block; margin: 20px 0 7px; font-weight: 800; }
+.inquiry-copy textarea {
+  display: block; width: 100%; max-width: 100%; min-width: 0;
+  padding: 12px; border: 1px solid var(--line); border-radius: 6px;
+  background: var(--bg); color: var(--ink); font: inherit; font-size: 15px;
+  line-height: 1.5; resize: vertical; overflow-wrap: anywhere;
+}
+.inquiry-copy .btn { margin-top: 9px; cursor: pointer; min-height: 44px; }
+.inquiry-copy .btn[hidden] { display: none; }
+.inquiry-copy :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.inquiry-copy-status { min-height: 3.2em; margin: 15px 0; }
+@media (max-width: 420px) {
+  .inquiry-copy { padding: 20px; }
+  .inquiry-copy textarea { font-size: 16px; }
+}
