@@ -3,7 +3,7 @@
   "use strict";
   const api=window.CosieRadarEngine;
   const $=id=>document.getElementById(id);
-  let current=null;
+  let current=null,selection=0;
   function text(tag,style,value){
     const el=document.createElement(tag);
     if(style)el.className=style;
@@ -14,9 +14,14 @@
     $("status").textContent=message;
     $("status").classList.toggle("error",isError);
   }
-  function reset(){
+  function beginSelection(){
+    selection++;
     current=null;
     $("results").hidden=true;
+    return selection;
+  }
+  function reset(){
+    beginSelection();
     $("placeFile").value="";
     $("filter").value="ALL";
     $("search").value="";
@@ -55,11 +60,17 @@
   }
   async function openFile(file){
     if(!file)return;
+    const request=beginSelection();
     if(!/\.(rbxlx|rbxmx)$/i.test(file.name||""))return failure("Use .rbxlx/.rbxmx XML, not binary .rbxl/.rbxm.");
     if(file.size<=0 || file.size>api.maxBytes)return failure("The file is empty or exceeds the 12 MB browser limit.");
     status("Inspecting the selected XML inside this tab…");
-    try {show(api.analyze(await file.text(),file.name));}
-    catch(error){failure(error.message||"File could not be inspected.");}
+    try {
+      const xml=await file.text();
+      // A newer selection, demo or Clear owns the display and export now.
+      if(request!==selection)return;
+      show(api.analyze(xml,file.name));
+    }
+    catch(error){if(request===selection)failure(error.message||"File could not be inspected.");}
   }
   function failure(message){current=null;$("results").hidden=true;status(message,true);}
   function download(){
@@ -81,6 +92,7 @@
     '</Item></roblox>';
   $("placeFile").addEventListener("change",e=>openFile(e.target.files?.[0]));
   $("demo").addEventListener("click",()=>{
+    beginSelection();
     try {show(api.analyze(demo,"Synthetic example — not a real game"));}
     catch(err){failure(err.message||"Demo failed");}
   });
