@@ -59,7 +59,7 @@ def run_health(route=None,until=0,kind='wrong',request_seconds=0,script=SCRIPT):
 class DeploymentReadinessTests(unittest.TestCase):
     def success(self,result):
         self.assertIsNone(result['error'],result)
-        self.assertEqual(sum(line.startswith('PASS ') for line in result['stdout'].splitlines()),9)
+        self.assertEqual(sum(line.startswith('PASS ') for line in result['stdout'].splitlines()),11)
         self.assertIn('PASS: public navigation',result['stdout'])
     def expired(self,result):
         self.assertIsNotNone(result['error'],result)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Public showroom smoke test. No credentials, payments, or customer data."""
 from html.parser import HTMLParser
-from urllib.parse import urljoin, urldefrag
+from urllib.parse import urljoin, urldefrag, urlsplit
 from urllib.request import Request, urlopen
 from urllib.error import HTTPError, URLError
 from hashlib import sha256
@@ -9,8 +9,8 @@ from pathlib import Path
 import time
 
 BASE = "https://justicelinderman-creator.github.io/soppy-nbm-showroom/"
-ROUTES = ("", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html", "portfolio/facility-console/", "creatorops/", "creatorops/checker/")
-INDEXABLE = {"free/", "studio/", "portfolio/facility-console/", "creatorops/", "creatorops/checker/"}
+ROUTES = ("", "game-assets/", "services/", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html", "portfolio/facility-console/", "creatorops/", "creatorops/checker/")
+INDEXABLE = {"", "game-assets/", "services/", "free/", "studio/", "portfolio/facility-console/", "creatorops/", "creatorops/checker/"}
 
 class PublicHTML(HTMLParser):
     def __init__(self):
@@ -58,6 +58,7 @@ def wait_for_release():
     root = Path(__file__).resolve().parents[1]
     expected = {route: (root / source).read_text(encoding="utf-8") for route, source in (
         ("studio/", "studio/index.html"),
+        ("services/", "services/index.html"),
         ("assets/inquiry.css", "assets/inquiry.css"),
         ("assets/inquiry.js", "assets/inquiry.js"),
         ("creatorops/checker/radar.js", "creatorops/checker/radar.js"),
@@ -122,7 +123,8 @@ for route in ROUTES:
     document.feed(html)
     is_audit = route == "free/"
     if route in INDEXABLE:
-        assert document.robots.replace(" ", "") == "index,follow", f"Approved page not indexable: {route}"
+        directives = set(document.robots.replace(" ", "").split(","))
+        assert {"index", "follow"} <= directives and "noindex" not in directives, f"Approved page not indexable: {route}"
         assert '<link rel="canonical"' in html, f"Canonical URL missing: {route}"
     else:
         assert "noindex" in document.robots, f"Unready page accidentally became indexable: {route}"
@@ -169,7 +171,7 @@ for route in ROUTES:
         assert "Submitting inquiries is disabled" in html, "Demo submit gate missing"
         assert not document.scripts, "Demo loads unexpected external script"
         assert not document.css, "Demo loads unexpected external stylesheet"
-    elif route == "portfolio/facility-console/":
+    elif route in {"portfolio/facility-console/", "game-assets/"}:
         assert not document.css, "Portfolio must remain self-contained"
     elif route == "studio/":
         assert document.css == ["../assets/site.css", "../assets/inquiry.css"], "Studio inquiry stylesheets changed"
@@ -183,7 +185,14 @@ for route in ROUTES:
         if target.startswith("https://justicelinderman-creator.github.io/") and not target.startswith(BASE):
             raise AssertionError(f"Broken nested path: {href} on {route}")
         if target.startswith(BASE) and target not in checked:
-            load(target)
+            if Path(urlsplit(target).path).suffix.lower() in {".pdf", ".mp4"}:
+                expected_type = "application/pdf" if urlsplit(target).path.endswith(".pdf") else "video/mp4"
+                with urlopen(Request(target, headers={"User-Agent": "NBM-Public-Site-Health/2.0"}), timeout=18) as response:
+                    assert response.status == 200, f"Proof file missing: {target}"
+                    assert response.headers.get("Content-Type", "").startswith(expected_type), f"Incorrect proof media type: {target}"
+                    assert response.read(1), f"Empty proof file: {target}"
+            else:
+                load(target)
             checked.add(target)
     print("PASS", route or "/", "links", len(document.links),
           "css", len(document.css), "scripts", len(document.scripts))

@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#070b09">
+  <title>Focused Creative & Automation Services | Cosie × NBM</title>
+  <meta name="description" content="Six focused services from Cosie Originals and NBM: n8n repairs, video edits, original props, Roblox asset QA, R15 motion corrections and business websites. Start with a project brief.">
+  <link rel="canonical" href="https://justicelinderman-creator.github.io/soppy-nbm-showroom/services/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Small scope. Solid work. — Cosie × NBM">
+  <meta property="og:description" content="Choose a clear deliverable. Agree the scope, price and delivery date. Get the work and a documented handoff.">
+  <meta property="og:url" content="https://justicelinderman-creator.github.io/soppy-nbm-showroom/services/">
+  <link rel="stylesheet" href="../assets/site.css">
+  <style>
+    [hidden]{display:none!important}
+    :focus-visible{outline:3px solid var(--lime);outline-offset:5px}
+    html{scroll-padding-top:100px}
+    .skip-link{position:absolute;left:18px;top:-70px;z-index:20;background:var(--lime);color:var(--bg);padding:12px 18px;border-radius:6px}
+    .skip-link:focus{top:12px}
+    .services-hero{padding:80px 0 70px}
+    .services-hero .shell{position:relative;z-index:1}
+    .hero-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.7fr);gap:52px;align-items:end}
+    .services-hero h1{font-size:clamp(49px,7.8vw,91px);line-height:.98;letter-spacing:-.075em;margin:20px 0 25px}
+    .services-hero .lead{max-width:640px}
+    .hero-note{margin:18px 0 0;font-size:13px;color:var(--muted)}
+    .process-panel{padding:27px;border:1px solid #4c654c;border-radius:16px;background:rgba(17,26,20,.92)}
+    .process-panel h2{font-size:24px;letter-spacing:-.035em;margin-bottom:23px}
+    .process-list{list-style:none;padding:0;margin:0;display:grid;gap:21px}
+    .process-list li{display:grid;grid-template-columns:25px 1fr;gap:13px}
+    .process-number{font-size:11px;color:var(--lime);padding-top:4px;font-weight:850;letter-spacing:.08em}
+    .process-list strong{display:block;font-size:15px;margin-bottom:2px}
+    .process-list p{font-size:13px;color:var(--muted);margin:0}
+    .section-intro{display:flex;justify-content:space-between;align-items:end;gap:28px;margin-bottom:30px}
+    .section-intro h2{margin:0;max-width:620px}
+    .section-intro .body{max-width:370px;margin:0;font-size:14px}
+    .service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+    .service-card{display:flex;flex-direction:column;min-width:0;padding:25px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+    .service-card.featured{border-color:#6d9250;background:linear-gradient(145deg,#1e2c1b,#111a14 70%)}
+    .service-card .tag{margin:0 0 19px;font-size:10px}
+    .offer-heading{display:flex;justify-content:space-between;align-items:start;gap:14px;margin-bottom:17px}
+    .offer-heading h3{font-size:23px;line-height:1.15;margin:0;max-width:175px}
+    .service-price{font-size:35px;line-height:1;font-weight:900;letter-spacing:-.065em;white-space:nowrap;text-align:right}
+    .service-price span{display:block;font-size:10px;line-height:1.5;font-weight:650;letter-spacing:.01em;color:var(--muted);margin-top:6px}
+    .service-summary{font-size:14px;color:#d4dfd0;margin:0 0 15px}
+    .service-features{padding-left:18px;margin:0 0 18px;font-size:13px;color:var(--muted)}
+    .service-features li+li{margin-top:8px}
+    .scope-note{font-size:12px;color:var(--muted);padding-top:14px;border-top:1px solid var(--line);margin:0 0 22px}
+    .scope-note strong{color:#d4dfd0}
+    .service-card .btn{margin-top:auto;min-height:46px;padding:11px 15px;font-size:13px}
+    .payment-split{color:var(--lime);font-size:13px;font-weight:750;margin:0 0 15px}
+    .terms-note{font-size:13px;color:var(--muted);margin:24px 0 0;max-width:860px}
+    .proof-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:17px}
+    .proof-card{display:flex;flex-direction:column;min-width:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel)}
+    .proof-wide{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+    .proof-video{display:flex;align-items:center;min-width:0;background:#060b08;padding:16px}
+    .proof-video video{display:block;width:100%;aspect-ratio:16/9;background:#050806;object-fit:contain;border-radius:6px}
+    .proof-links{display:flex;flex-wrap:wrap;gap:12px 20px;margin-top:auto}
+    .proof-links a{margin:0}
+    .proof-card img{width:100%;height:180px;object-fit:cover;display:block;background:#101613}
+    .proof-label{display:flex;align-items:end;min-height:180px;padding:25px;background:linear-gradient(145deg,#1a2a1d,#101813);border-bottom:1px solid var(--line)}
+    .proof-label span{font-size:52px;letter-spacing:-.065em;line-height:1.05;font-weight:900;color:var(--lime)}
+    .proof-body{padding:24px;display:flex;flex:1;flex-direction:column}
+    .proof-body .tag{font-size:10px;margin-bottom:10px}
+    .proof-body h3{font-size:23px;line-height:1.2;margin-bottom:10px}
+    .proof-body p{font-size:13px;color:var(--muted);margin-bottom:19px}
+    .proof-body a{color:var(--lime);font-size:13px;font-weight:800;text-decoration:none;margin-top:auto;align-self:flex-start}
+    .proof-body a:hover{text-decoration:underline}
+    .brief-section{background:linear-gradient(180deg,#111b13, var(--bg))}
+    .brief-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:25px;align-items:start}
+    .brief-inputs,.email-preview{padding:28px;background:var(--panel);border:1px solid var(--line);border-radius:14px;min-width:0}
+    .brief-inputs h3,.email-preview h3{font-size:22px;margin-bottom:9px}
+    .field{margin-top:21px}
+    .field label,.preview-field label{display:block;font-size:14px;font-weight:800;margin-bottom:7px}
+    .field label span{font-size:11px;color:var(--muted);font-weight:500;margin-left:4px}
+    .field-help{font-size:12px;color:var(--muted);margin:7px 0 0}
+    input,textarea,select{display:block;width:100%;min-width:0;border:1px solid #4a6150;border-radius:7px;background:#090f0b;color:var(--ink);padding:12px 13px;font:inherit;font-size:16px;line-height:1.5}
+    textarea{resize:vertical}
+    input::placeholder,textarea::placeholder{color:#829886;opacity:1}
+    .brief-inputs .btns{margin-top:24px}
+    .brief-inputs .fine{margin:16px 0 0;font-size:12px}
+    .preview-field{margin-top:20px}
+    .preview-field input,.preview-field textarea{font-size:13px;color:#cfddcb;background:#0c140e}
+    .preview-field .copy-button{display:inline-flex;width:auto;margin-top:8px;font-size:12px;padding:7px 11px;min-height:36px;cursor:pointer}
+    .copy-status{min-height:24px;margin:17px 0 0;color:var(--lime);font-size:12px}
+    .direct-contact{font-size:13px;margin:21px 0 0;color:var(--muted);overflow-wrap:anywhere}
+    .direct-contact a{color:var(--lime)}
+    .no-script{border-left:3px solid var(--lime);padding:12px 15px;background:var(--panel2);font-size:14px}
+    .footer{padding:28px 24px}
+    @media(max-width:1000px){.hero-layout{gap:30px;grid-template-columns:minmax(0,1.4fr) minmax(250px,.8fr)}.services-hero h1{font-size:clamp(49px,7.7vw,76px)}.service-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:760px){.hero-layout,.brief-layout,.proof-wide{grid-template-columns:1fr}.hero-layout{gap:31px}.services-hero{padding:58px 0}.services-hero h1{font-size:clamp(49px,11vw,78px)}.process-panel{padding:24px}.process-list{grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.process-list li{grid-template-columns:1fr;gap:6px}.process-panel h2{margin-bottom:18px}.section-intro{display:block}.section-intro .body{max-width:620px;margin-top:18px}.brief-inputs,.email-preview{padding:24px}.proof-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media(max-width:540px){html{scroll-padding-top:130px}.service-grid,.proof-grid{grid-template-columns:1fr}.services-hero h1{font-size:clamp(43px,11.5vw,62px)}.process-list{grid-template-columns:1fr;gap:16px}.process-list li{grid-template-columns:25px 1fr;gap:12px}.service-card{padding:24px}.offer-heading h3{max-width:220px;font-size:25px}.service-price{font-size:39px}.service-card .btn{width:100%}.brief-inputs,.email-preview{padding:21px}.proof-card img,.proof-label{height:170px;min-height:170px}.footer{padding:24px 17px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+    @media print{.skip-link,.brief-inputs,.copy-button,.direct-contact{display:none!important}.service-grid,.proof-grid,.brief-layout{display:block}.service-card,.proof-card,.email-preview{break-inside:avoid;background:white;color:#111;border-color:#bbb;margin-bottom:18px}.service-card p,.service-card li,.service-price span,.proof-body p,.email-preview p{color:#333}.preview-field input,.preview-field textarea{color:#111;background:white;border-color:#bbb}.brief-section{background:white}}
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to services</a>
+  <div class="alert">COSIE ORIGINALS × NBM DELIVERY STUDIO · PROJECT INQUIRIES OPEN</div>
+  <header>
+    <div class="shell nav">
+      <a class="logo" href="../" aria-label="Soppy and NBM homepage">SOPPY <em>×</em> NBM</a>
+      <nav class="navlinks" aria-label="Primary">
+        <a href="#offers">Services &amp; prices</a>
+        <a href="#work">Work &amp; demos</a>
+        <a href="#brief">Start a brief</a>
+        <a href="../game-assets/">Asset catalog</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero services-hero" aria-labelledby="page-title">
+      <div class="shell hero-layout">
+        <div>
+          <p class="eyebrow">Focused services / Clear deliverables</p>
+          <h1 id="page-title">SMALL SCOPE.<br><em>SOLID WORK.</em></h1>
+          <p class="lead">Get a workflow repaired, a game asset delivered, or a business page ready to use. Choose a service and tell us the result you need.</p>
+          <div class="btns">
+            <a class="btn" href="#brief">Start your project brief <span aria-hidden="true">↗</span></a>
+            <a class="btn dark" href="#offers">Explore the six services</a>
+          </div>
+          <p class="hero-note">Scope, delivery date and total price agreed before payment. All prices in USD.</p>
+        </div>
+        <aside class="process-panel" aria-labelledby="process-title">
+          <h2 id="process-title">Clear from the start.</h2>
+          <ol class="process-list">
+            <li><span class="process-number" aria-hidden="true">01</span><div><strong>Describe the result.</strong><p>Share the problem, available inputs and what success looks like.</p></div></li>
+            <li><span class="process-number" aria-hidden="true">02</span><div><strong>Agree the scope.</strong><p>Confirm deliverables, acceptance checks, timing and payment terms in writing.</p></div></li>
+            <li><span class="process-number" aria-hidden="true">03</span><div><strong>Receive the work.</strong><p>Get the agreed files, checks and handoff after the project is completed.</p></div></li>
+          </ol>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="offers" aria-labelledby="offers-title">
+      <div class="shell">
+        <div class="section-intro">
+          <div><p class="eyebrow">Six ways to move a project forward</p><h2 id="offers-title">Choose the <em>deliverable.</em></h2></div>
+          <p class="body">Each price covers the baseline described below. We review your brief and confirm the final scope and fee before any work or payment.</p>
+        </div>
+        <div class="service-grid">
+          <article class="service-card featured" id="workflow-repair">
+            <p class="tag">01 / Workflow automation</p>
+            <div class="offer-heading"><h3>n8n workflow repair</h3><div class="service-price">$200<span>USD · scoped pilot</span></div></div>
+            <p class="service-summary">One existing workflow. One reproducible failure class. A clearly defined repair.</p>
+            <ul class="service-features">
+              <li>The agreed change and a sanitized workflow export.</li>
+              <li>Normal, failure and replay checks where relevant, with evidence and rollback notes.</li>
+              <li>One revision within the agreed scope.</li>
+            </ul>
+            <p class="scope-note"><strong>Separate scope:</strong> new workflows, additional failure classes, infrastructure changes, ongoing monitoring and third-party usage fees.</p>
+            <a class="btn" href="#brief" data-service="n8n">Brief a workflow repair <span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="service-card" id="vertical-edits">
+            <p class="tag">02 / Video editing</p>
+            <div class="offer-heading"><h3>Three vertical edits</h3><div class="service-price">$79<span>USD · base package</span></div></div>
+            <p class="service-summary">Turn footage you own or have permission to use into three focused short videos.</p>
+            <ul class="service-features">
+              <li>Three vertical cuts with readable captions and framing.</li>
+              <li>Source length, finished duration and editing style agreed first.</li>
+              <li>One consolidated review pass.</li>
+            </ul>
+            <p class="scope-note"><strong>Separate scope:</strong> filming, custom animation, extra edits and new licensed media. Audience growth or views are not guaranteed.</p>
+            <a class="btn dark" href="#brief" data-service="video">Brief three video edits <span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="service-card" id="original-prop">
+            <p class="tag">03 / Original 3D</p>
+            <div class="offer-heading"><h3>One original game prop</h3><div class="service-price">$125<span>USD · base brief</span></div></div>
+            <p class="service-summary">One original stylized prop built around an agreed reference brief and art direction.</p>
+            <ul class="service-features">
+              <li>GLB and FBX exports, a review render and one revision.</li>
+              <li>Geometry, texture budget and intended engine agreed in the brief.</li>
+              <li>Usage rights and delivery requirements confirmed before work.</li>
+            </ul>
+            <p class="scope-note"><strong>Separate scope:</strong> rigging, animation, full environments and marketplace publication. Engine compatibility is checked only as agreed.</p>
+            <a class="btn dark" href="#brief" data-service="prop">Brief an original prop <span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="service-card" id="asset-qa">
+            <p class="tag">04 / Asset review</p>
+            <div class="offer-heading"><h3>Roblox asset QA</h3><div class="service-price">$99<span>USD · up to 20 assets</span></div></div>
+            <p class="service-summary">A focused inspection of assets you are authorized to share, with an actionable issue list.</p>
+            <ul class="service-features">
+              <li>Up to 20 assets, with formats and test environment agreed first.</li>
+              <li>Agreed import, scale, material and dependency checks.</li>
+              <li>A prioritized report documenting findings and checks actually performed.</li>
+            </ul>
+            <p class="scope-note"><strong>Separate scope:</strong> repairs, full gameplay audits and performance testing. Static inspection is not a native Studio runtime certificate.</p>
+            <a class="btn dark" href="#brief" data-service="qa">Brief an asset review <span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="service-card" id="motion-correction">
+            <p class="tag">05 / R15 motion</p>
+            <div class="offer-heading"><h3>One R15 correction</h3><div class="service-price">$85<span>USD · base correction</span></div></div>
+            <p class="service-summary">Correct an agreed issue in one provided motion on a rig you are authorized to use.</p>
+            <ul class="service-features">
+              <li>One defined motion correction, scoped from your source and reference.</li>
+              <li>A before-and-after clip and the corrected source sequence.</li>
+              <li>Documented checks against the agreed acceptance criteria.</li>
+            </ul>
+            <p class="scope-note"><strong>Separate scope:</strong> gameplay integration, rig rebuilding and new animation sets.</p>
+            <a class="btn dark" href="#brief" data-service="r15">Brief a motion correction <span aria-hidden="true">↗</span></a>
+          </article>
+
+          <article class="service-card" id="website-pilot">
+            <p class="tag">06 / Business websites</p>
+            <div class="offer-heading"><h3>Website + inquiry route</h3><div class="service-price">$750<span>USD · total pilot fee</span></div></div>
+            <p class="service-summary">One responsive landing page that explains your services and gives customers a clear way to contact you.</p>
+            <ul class="service-features">
+              <li>Up to three service sections using approved business details.</li>
+              <li>An agreed inquiry route, with an authorized delivery test.</li>
+              <li>Two revision rounds, source files and a documented handoff.</li>
+            </ul>
+            <p class="payment-split">$375 deposit + $375 after acceptance.</p>
+            <p class="scope-note">Confirm the written scope, delivery date and payment terms before the deposit. <strong>Separate:</strong> hosting, domain, subscriptions, extra pages, advanced integrations and ongoing marketing.</p>
+            <a class="btn dark" href="#brief" data-service="website">Brief a website pilot <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+        <p class="terms-note">These are service prices, not earnings forecasts or promises of business results. A brief starts a conversation. We confirm deliverables, acceptance criteria, rights, timing, payment and refund terms in writing before asking you to pay. Payment details are shared privately after that agreement.</p>
+      </div>
+    </section>
+
+    <section class="section" id="work" aria-labelledby="work-title">
+      <div class="shell">
+        <div class="section-intro">
+          <div><p class="eyebrow">Independent portfolio &amp; working demos</p><h2 id="work-title">Inspect the <em>work.</em></h2></div>
+          <p class="body">Explore a workflow work sample, an original model, a website demo and an inspection tool. Each example explains what has been verified.</p>
+        </div>
+        <div class="proof-grid">
+          <article class="proof-card proof-wide">
+            <div class="proof-video">
+              <video controls preload="metadata" playsinline aria-label="Edited two-minute n8n reliability work sample with synthesized narration">
+                <source src="./proof/n8n-walkthrough.mp4" type="video/mp4">
+                <p>Your browser cannot play this video. <a href="./proof/n8n-walkthrough.mp4">Open the MP4 walkthrough</a> or <a href="./proof/n8n-work-sample.pdf">read the PDF work sample</a>.</p>
+              </video>
+            </div>
+            <div class="proof-body">
+              <p class="tag">n8n / Independent work sample</p>
+              <h3>Workflow reliability, with evidence.</h3>
+              <p>Self-directed, AI-assisted work sample with synthetic data and local mock services. This edited two-minute walkthrough shows native screenshots and preserved results from five historical sandbox executions. Narration is synthesized. No live customer CRM, email or payment system was connected. Duplicate handling is not a production-wide or restart-safe guarantee.</p>
+              <div class="proof-links"><a href="./proof/n8n-work-sample.pdf">Read the work sample (PDF) <span aria-hidden="true">↗</span></a><a href="./proof/n8n-walkthrough.mp4">Open the walkthrough (MP4) <span aria-hidden="true">↗</span></a></div>
+            </div>
+          </article>
+          <article class="proof-card">
+            <img src="../portfolio/facility-console/COSIE_FACILITY_CONSOLE_hero.png" alt="Original sci-fi operator console rendered from its Blender source model" width="720" height="480" loading="lazy">
+            <div class="proof-body"><p class="tag">Original 3D / Independent study</p><h3>Facility Console 07</h3><p>An original Blender model with separate GLB and FBX reimport checks. This is portfolio work, not a completed client commission.</p><a href="../portfolio/facility-console/">View the model &amp; checks <span aria-hidden="true">↗</span></a></div>
+          </article>
+          <article class="proof-card">
+            <div class="proof-label" aria-hidden="true"><span>DETAIL<br>FLOW.</span></div>
+            <div class="proof-body"><p class="tag">Website / Fictional sample</p><h3>A clearer service inquiry</h3><p>Explore service selection and a quote preview for a fictional detailing business. The demo does not accept inquiries or payments.</p><a href="../demo/detailflow/">Explore the website demo <span aria-hidden="true">↗</span></a></div>
+          </article>
+          <article class="proof-card">
+            <div class="proof-label" aria-hidden="true"><span>RELEASE<br>RADAR.</span></div>
+            <div class="proof-body"><p class="tag">Roblox XML / Free local tool</p><h3>Inspect a scene export</h3><p>Run advisory checks on a Roblox XML export in your browser. These are static file checks, not native Studio runtime or performance tests.</p><a href="../creatorops/checker/">Try the free checker <span aria-hidden="true">↗</span></a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section brief-section" id="brief" aria-labelledby="brief-title">
+      <div class="shell">
+        <div class="section-intro">
+          <div><p class="eyebrow">Start with the result you need</p><h2 id="brief-title">A good brief.<br><em>A clear next step.</em></h2></div>
+          <p class="body">Tell us what you need and what finished means. We’ll review fit and scope before discussing payment.</p>
+        </div>
+        <noscript><p class="no-script">The brief composer needs JavaScript. You can still email <a href="mailto:justice.linderman@gmail.com">justice.linderman@gmail.com</a> directly and use the message template below.</p></noscript>
+        <div class="brief-layout">
+          <div class="brief-inputs" role="group" aria-labelledby="composer-title">
+            <h3 id="composer-title">Describe your project</h3>
+            <p class="fine" id="local-note">This page prepares an email draft. Your entries are not stored or submitted to the studio here. You review and send the email yourself.</p>
+            <div class="field">
+              <label for="brief-service">Service <span>required</span></label>
+              <select id="brief-service" required autocomplete="off">
+                <option value="">Choose a service</option>
+                <option value="n8n">n8n workflow repair — $200</option>
+                <option value="video">Three vertical edits — $79</option>
+                <option value="prop">One original game prop — $125</option>
+                <option value="qa">Roblox asset QA — $99</option>
+                <option value="r15">One R15 correction — $85</option>
+                <option value="website">Website pilot — $750 total</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="brief-summary">Project summary <span>required</span></label>
+              <textarea id="brief-summary" rows="4" maxlength="600" required autocomplete="off" placeholder="What are you working on, and what needs attention?" aria-describedby="summary-help"></textarea>
+              <p class="field-help" id="summary-help">Mention the available source files or a public reference. Keep passwords, API keys and private customer data out of the brief.</p>
+            </div>
+            <div class="field">
+              <label for="brief-result">Exact expected result <span>required</span></label>
+              <textarea id="brief-result" rows="4" maxlength="600" required autocomplete="off" placeholder="What should the finished work do or look like?" aria-describedby="result-help"></textarea>
+              <p class="field-help" id="result-help">A concrete outcome helps: the failure to fix, the files to deliver or the behavior you need to verify.</p>
+            </div>
+            <div class="field">
+              <label for="brief-deadline">Preferred deadline <span>optional</span></label>
+              <input id="brief-deadline" type="text" maxlength="80" autocomplete="off" placeholder="A date, a timeframe, or flexible">
+            </div>
+            <div class="btns"><a class="btn" id="open-email" href="mailto:justice.linderman@gmail.com" aria-describedby="email-help" hidden>Open email draft <span aria-hidden="true">↗</span></a></div>
+            <p class="fine" id="email-help">Opening a draft does not send it. If your email app does not open, copy the recipient, subject and message from the preview into your webmail.</p>
+            <p class="direct-contact">Prefer a direct email? <a href="mailto:justice.linderman@gmail.com">justice.linderman@gmail.com</a></p>
+          </div>
+
+          <aside class="email-preview" aria-labelledby="preview-title">
+            <h3 id="preview-title">Your email preview</h3>
+            <p class="fine">Use these copyable details with Gmail or any other email service.</p>
+            <div class="preview-field">
+              <label for="email-address">To</label>
+              <input id="email-address" type="text" value="justice.linderman@gmail.com" readonly spellcheck="false">
+              <button class="btn dark copy-button" type="button" data-copy="email-address" data-copy-label="Email address" hidden>Copy address</button>
+            </div>
+            <div class="preview-field">
+              <label for="email-subject">Subject</label>
+              <input id="email-subject" type="text" value="Project brief — Cosie / NBM" readonly spellcheck="false">
+              <button class="btn dark copy-button" type="button" data-copy="email-subject" data-copy-label="Subject" hidden>Copy subject</button>
+            </div>
+            <div class="preview-field">
+              <label for="email-body">Message</label>
+              <textarea id="email-body" rows="16" readonly spellcheck="false">Hello Cosie / NBM,
+
+I'd like to discuss a project.
+
+Service:
+[Choose one of the six services]
+
+Project summary:
+[Describe the project and available inputs]
+
+Exact expected result:
+[Describe what finished should look like]
+
+Preferred deadline:
+[A date, timeframe, or flexible]
+
+Please confirm fit, scope, delivery timing, total price and payment terms before any work or payment.
+
+Thank you.</textarea>
+              <button class="btn dark copy-button" type="button" data-copy="email-body" data-copy-label="Message" hidden>Copy message</button>
+            </div>
+            <p class="copy-status" id="copy-status" role="status" aria-live="polite" aria-atomic="true"></p>
+            <p class="fine">The preview contains only what you enter above. Read the <a href="../privacy.html">privacy notice</a>. Sending a brief does not book work or create a payment obligation.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="shell footer"><span>© 2026 Cosie Originals / SOPPY × NBM</span><span><a href="../">Main studio</a> · <a href="../privacy.html">Privacy</a> · Scope agreed before payment.</span></div>
+  </footer>
+  <script>
+    (() => {
+      'use strict';
+      const recipient = 'justice.linderman@gmail.com';
+      const service = document.getElementById('brief-service');
+      const summary = document.getElementById('brief-summary');
+      const result = document.getElementById('brief-result');
+      const deadline = document.getElementById('brief-deadline');
+      const subject = document.getElementById('email-subject');
+      const body = document.getElementById('email-body');
+      const emailLink = document.getElementById('open-email');
+      const status = document.getElementById('copy-status');
+      const services = {
+        n8n: { name: 'n8n workflow repair', price: '$200 USD for the described baseline' },
+        video: { name: 'Three vertical edits', price: '$79 USD for the described baseline' },
+        prop: { name: 'One original game prop', price: '$125 USD for the described baseline' },
+        qa: { name: 'Roblox asset QA', price: '$99 USD for up to 20 agreed assets' },
+        r15: { name: 'One R15 correction', price: '$85 USD for the described baseline' },
+        website: { name: 'Website + inquiry-route pilot', price: '$750 USD total: $375 deposit, $375 after acceptance' }
+      };
+
+      function updatePreview() {
+        const chosen = services[service.value];
+        subject.value = chosen ? 'Project brief — ' + chosen.name : 'Project brief — Cosie / NBM';
+        body.value = [
+          'Hello Cosie / NBM,',
+          '',
+          "I'd like to discuss a project.",
+          '',
+          'Service: ' + (chosen ? chosen.name : '[Choose a service]'),
+          'Listed baseline: ' + (chosen ? chosen.price : '[Based on the selected service]'),
+          '',
+          'Project summary:',
+          summary.value.trim() || '[Describe the project and available inputs]',
+          '',
+          'Exact expected result:',
+          result.value.trim() || '[Describe what finished should look like]',
+          '',
+          'Preferred deadline: ' + (deadline.value.trim() || 'Flexible / to be agreed'),
+          '',
+          'Please confirm fit, scope, delivery timing, total price and payment terms before any work or payment.',
+          '',
+          'Thank you.'
+        ].join('\n');
+        emailLink.href = 'mailto:' + recipient + '?subject=' + encodeURIComponent(subject.value) + '&body=' + encodeURIComponent(body.value);
+      }
+
+      [service, summary, result, deadline].forEach(field => {
+        field.addEventListener('input', updatePreview);
+        field.addEventListener('change', updatePreview);
+      });
+
+      document.querySelectorAll('[data-service]').forEach(link => {
+        link.addEventListener('click', () => {
+          service.value = link.dataset.service;
+          updatePreview();
+          service.focus({ preventScroll: true });
+        });
+      });
+
+      emailLink.addEventListener('click', event => {
+        summary.setCustomValidity(summary.value.trim() ? '' : 'Please describe your project.');
+        result.setCustomValidity(result.value.trim() ? '' : 'Please describe the result you need.');
+        for (const field of [service, summary, result]) {
+          if (!field.reportValidity()) {
+            event.preventDefault();
+            return;
+          }
+        }
+        updatePreview();
+      });
+      [summary, result].forEach(field => field.addEventListener('input', () => field.setCustomValidity('')));
+
+      document.querySelectorAll('[data-copy]').forEach(button => {
+        button.hidden = false;
+        button.addEventListener('click', async () => {
+          updatePreview();
+          const field = document.getElementById(button.dataset.copy);
+          const label = button.dataset.copyLabel;
+          try {
+            if (!navigator.clipboard || !navigator.clipboard.writeText) throw new Error('Clipboard unavailable');
+            await navigator.clipboard.writeText(field.value);
+            status.textContent = label + ' copied. Paste it into your email; nothing has been sent.';
+          } catch (_) {
+            field.focus();
+            field.select();
+            status.textContent = label + ' selected. Copy it manually and paste it into your email; nothing has been sent.';
+          }
+        });
+      });
+
+      updatePreview();
+      emailLink.hidden = false;
+    })();
+  </script>
+</body>
+</html>
