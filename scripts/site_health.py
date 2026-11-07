@@ -196,7 +196,8 @@ for route in ROUTES:
                 with urlopen(Request(target, headers={"User-Agent": "NBM-Public-Site-Health/2.0"}), timeout=18) as response:
                     assert response.status == 200, f"Proof file missing: {target}"
                     content_type = response.headers.get("Content-Type", "")
-                    assert content_type.startswith(expected_type) or (suffix == ".zip" and content_type.startswith("application/octet-stream")), f"Incorrect media type: {target}"
+                    allowed_types = (expected_type, "application/octet-stream", "application/x-zip-compressed") if suffix == ".zip" else (expected_type,)
+                    assert any(content_type.startswith(value) for value in allowed_types), f"Incorrect media type: {target}"
                     prefix = response.read(2)
                     assert prefix, f"Empty proof or download file: {target}"
                     if suffix == ".zip":
