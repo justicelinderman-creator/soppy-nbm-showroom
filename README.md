@@ -16,3 +16,10 @@ Static/real browser acceptance: `tests/test_first_buyer_discoverability.py`, `te
 ## November 6 service activation
 
 `/services/` presents six scoped services and a local email-brief composer. The composer does not submit or persist visitor data. It links to the reviewed, explicitly synthetic n8n work sample, the original console portfolio, the fictional website demonstration and the free scene checker. Customer-specific payment links are shared privately after written scope and delivery-date agreement; they are not embedded in the public repository. The website pilot is one $750 project, with $375 start and $375 accepted-delivery payments. No sales or client results are claimed. The existing restrictions on private files, outbound marketing and unreviewed products still apply.
+
+## November 7 workflow funnel and free toolkit
+
+`/services/n8n/` is the focused $200 workflow-repair landing page. It defines one workflow and one reproducible failure class, links the historical independent work sample, and prepares an email brief locally. It does not submit visitor data or expose private payment links.
+
+`/tools/workflow-preflight/` is a free browser-only structural inspector for n8n JSON exports. The downloadable Workflow Rescue Kit adds intake, acceptance, rollback and handoff templates. Checks are advisory and do not execute workflows, validate credentials, certify security or guarantee production behavior. No upload, analytics, signup or paid checkout is added.
+

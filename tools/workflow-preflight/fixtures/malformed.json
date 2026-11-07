@@ -1,0 +1,7 @@
+{
+  "name": "Synthetic malformed example",
+  "nodes": [
+    { "name": "Example node", "type": "n8n-nodes-base.noOp" },
+  ],
+  "connections": {}
+}

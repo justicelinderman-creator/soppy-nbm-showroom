@@ -1,0 +1,93 @@
+{
+  "name": "Synthetic: example inventory request",
+  "nodes": [
+    {
+      "name": "Run example",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "name": "Read example data",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        260,
+        0
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1500,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "SYNTHETIC_ONLY",
+          "name": "Example credential reference"
+        }
+      },
+      "parameters": {
+        "url": "https://example.invalid/inventory"
+      }
+    },
+    {
+      "name": "Pick example fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        520,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "name": "Finish example",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        780,
+        0
+      ],
+      "parameters": {}
+    }
+  ],
+  "connections": {
+    "Run example": {
+      "main": [
+        [
+          {
+            "node": "Read example data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read example data": {
+      "main": [
+        [
+          {
+            "node": "Pick example fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick example fields": {
+      "main": [
+        [
+          {
+            "node": "Finish example",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {}
+}

@@ -1,0 +1,81 @@
+{
+  "name": "Synthetic: broken connections for review",
+  "nodes": [
+    {
+      "name": "Start example",
+      "type": "n8n-nodes-base.manualTrigger",
+      "parameters": {},
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Repeated example name",
+      "type": "n8n-nodes-base.httpRequest",
+      "disabled": true,
+      "parameters": {
+        "url": "https://example.invalid"
+      },
+      "position": [
+        260,
+        0
+      ]
+    },
+    {
+      "name": "Repeated example name",
+      "type": "n8n-nodes-base.set",
+      "parameters": {},
+      "position": [
+        520,
+        0
+      ]
+    },
+    {
+      "type": "n8n-nodes-base.noOp",
+      "parameters": {},
+      "position": [
+        780,
+        0
+      ]
+    },
+    {
+      "name": "Type missing here",
+      "parameters": {},
+      "position": [
+        1040,
+        0
+      ]
+    }
+  ],
+  "connections": {
+    "Start example": {
+      "main": [
+        [
+          {
+            "node": "Deleted example node",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Repeated example name",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Removed example source": {
+      "main": [
+        [
+          {
+            "node": "Start example",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false
+}

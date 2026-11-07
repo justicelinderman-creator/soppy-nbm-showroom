@@ -9,8 +9,8 @@ from pathlib import Path
 import time
 
 BASE = "https://justicelinderman-creator.github.io/soppy-nbm-showroom/"
-ROUTES = ("", "game-assets/", "services/", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html", "portfolio/facility-console/", "creatorops/", "creatorops/checker/")
-INDEXABLE = {"", "game-assets/", "services/", "free/", "studio/", "portfolio/facility-console/", "creatorops/", "creatorops/checker/"}
+ROUTES = ("", "game-assets/", "services/", "services/n8n/", "tools/workflow-preflight/", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html", "portfolio/facility-console/", "creatorops/", "creatorops/checker/")
+INDEXABLE = {"", "game-assets/", "services/", "services/n8n/", "tools/workflow-preflight/", "free/", "studio/", "portfolio/facility-console/", "creatorops/", "creatorops/checker/"}
 
 class PublicHTML(HTMLParser):
     def __init__(self):
@@ -59,12 +59,17 @@ def wait_for_release():
     expected = {route: (root / source).read_text(encoding="utf-8") for route, source in (
         ("studio/", "studio/index.html"),
         ("services/", "services/index.html"),
+        ("services/n8n/", "services/n8n/index.html"),
+        ("services/n8n/brief.js", "services/n8n/brief.js"),
+        ("tools/workflow-preflight/", "tools/workflow-preflight/index.html"),
         ("assets/inquiry.css", "assets/inquiry.css"),
         ("assets/inquiry.js", "assets/inquiry.js"),
         ("creatorops/checker/radar.js", "creatorops/checker/radar.js"),
     )}
     release_key = sha256("\0".join(expected.values()).encode("utf-8")).hexdigest()[:16]
-    deadline = time.monotonic() + 90
+    # Pages builds run alongside this push-triggered check; the prior release
+    # exceeded 90 seconds even though its eventual deployment succeeded.
+    deadline = time.monotonic() + 240
     attempt = 0
     last = "Release assets are not current"
 
@@ -102,7 +107,7 @@ def wait_for_release():
             break
         time.sleep(min(5, remaining))
         attempt += 1
-    raise AssertionError("GitHub Pages did not finish publishing the latest public release within 90 seconds: " + last)
+    raise AssertionError("GitHub Pages did not finish publishing the latest public release within 240 seconds: " + last)
 
 
 free_latest, demo_latest, robots_latest, sitemap_latest = wait_for_release()
@@ -185,15 +190,21 @@ for route in ROUTES:
         if target.startswith("https://justicelinderman-creator.github.io/") and not target.startswith(BASE):
             raise AssertionError(f"Broken nested path: {href} on {route}")
         if target.startswith(BASE) and target not in checked:
-            if Path(urlsplit(target).path).suffix.lower() in {".pdf", ".mp4"}:
-                expected_type = "application/pdf" if urlsplit(target).path.endswith(".pdf") else "video/mp4"
+            if Path(urlsplit(target).path).suffix.lower() in {".pdf", ".mp4", ".zip"}:
+                suffix = Path(urlsplit(target).path).suffix.lower()
+                expected_type = {".pdf": "application/pdf", ".mp4": "video/mp4", ".zip": "application/zip"}[suffix]
                 with urlopen(Request(target, headers={"User-Agent": "NBM-Public-Site-Health/2.0"}), timeout=18) as response:
                     assert response.status == 200, f"Proof file missing: {target}"
-                    assert response.headers.get("Content-Type", "").startswith(expected_type), f"Incorrect proof media type: {target}"
-                    assert response.read(1), f"Empty proof file: {target}"
+                    content_type = response.headers.get("Content-Type", "")
+                    assert content_type.startswith(expected_type) or (suffix == ".zip" and content_type.startswith("application/octet-stream")), f"Incorrect media type: {target}"
+                    prefix = response.read(2)
+                    assert prefix, f"Empty proof or download file: {target}"
+                    if suffix == ".zip":
+                        assert prefix == b"PK", f"ZIP response is not an archive: {target}"
             else:
                 load(target)
             checked.add(target)
     print("PASS", route or "/", "links", len(document.links),
           "css", len(document.css), "scripts", len(document.scripts))
 print("PASS: public navigation, original portfolio media, safe draft store, consented email CTA and approved indexing.")
+
