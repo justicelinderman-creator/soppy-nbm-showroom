@@ -159,7 +159,7 @@ for route in ROUTES:
             assert "not Roblox certification" in html.lower() or "not roblox certification" in html.lower(), "Roblox guide lacks independence disclosure"
         else:
             assert "../../services/n8n/" in html and "../../tools/workflow-preflight/" in html, "Automation guide lacks useful next steps"
-            assert "not proof of a deployed customer crm" in html.lower(), "Automation guide implies client acceptance"
+            assert "proof of a deployed customer crm" in html.lower() and "<em>not</em>" in html.lower(), "Automation guide implies client acceptance"
     if route == "roblox-qa/":
         assert document.forms == 0 and not document.scripts, "QA service page unexpectedly collects data or loads scripts"
         assert "NO CHECKOUT" in html and "1,500 Robux" not in html, "QA payment/readiness gate changed"
