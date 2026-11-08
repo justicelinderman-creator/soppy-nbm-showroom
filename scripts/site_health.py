@@ -9,8 +9,8 @@ from pathlib import Path
 import time
 
 BASE = "https://justicelinderman-creator.github.io/soppy-nbm-showroom/"
-ROUTES = ("", "game-assets/", "services/", "services/n8n/", "tools/workflow-preflight/", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html", "portfolio/facility-console/", "creatorops/", "creatorops/checker/")
-INDEXABLE = {"", "game-assets/", "services/", "services/n8n/", "tools/workflow-preflight/", "free/", "studio/", "portfolio/facility-console/", "creatorops/", "creatorops/checker/"}
+ROUTES = ("", "game-assets/", "services/", "services/n8n/", "roblox-qa/", "tools/workflow-preflight/", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html", "portfolio/facility-console/", "creatorops/", "creatorops/checker/")
+INDEXABLE = {"", "game-assets/", "services/", "services/n8n/", "roblox-qa/", "tools/workflow-preflight/", "free/", "studio/", "portfolio/facility-console/", "creatorops/", "creatorops/checker/"}
 
 class PublicHTML(HTMLParser):
     def __init__(self):
@@ -58,6 +58,8 @@ def wait_for_release():
     root = Path(__file__).resolve().parents[1]
     expected = {route: (root / source).read_text(encoding="utf-8") for route, source in (
         ("studio/", "studio/index.html"),
+        ("roblox-qa/", "roblox-qa/index.html"),
+        ("roblox-qa/example-report.txt", "roblox-qa/example-report.txt"),
         ("services/", "services/index.html"),
         ("services/n8n/", "services/n8n/index.html"),
         ("services/n8n/brief.js", "services/n8n/brief.js"),
@@ -94,6 +96,7 @@ def wait_for_release():
                 and "Sitemap:" in robots_latest
                 and "<urlset" in sitemap_latest
                 and BASE + "studio/" in sitemap_latest
+                and BASE + "roblox-qa/" in sitemap_latest
                 and BASE + "portfolio/facility-console/" in sitemap_latest
                 and BASE + "creatorops/" in sitemap_latest
                 and BASE + "creatorops/checker/" in sitemap_latest), "Core release pages are not ready"
@@ -119,6 +122,7 @@ assert BASE + "portfolio/facility-console/" in sitemap_latest, "Original art por
 assert BASE + "creatorops/" in sitemap_latest, "Studio Companion educational preview missing from sitemap"
 assert BASE + "creatorops/checker/" in sitemap_latest, "Useful XML checker missing from sitemap"
 assert BASE + "store/" not in sitemap_latest, "Unready checkout listed as indexable"
+assert BASE + "roblox-qa/" in sitemap_latest, "Scoped QA service inquiry route missing from sitemap"
 
 checked = set()
 for route in ROUTES:
@@ -140,6 +144,10 @@ for route in ROUTES:
     if route == "store/":
         assert "Checkout not active" in html, "Store checkout gate missing"
         assert "../demo/detailflow/" in html, "Store demo link missing"
+    if route == "roblox-qa/":
+        assert document.forms == 0 and not document.scripts, "QA service page unexpectedly collects data or loads scripts"
+        assert "NO CHECKOUT" in html and "1,500 Robux" not in html, "QA payment/readiness gate changed"
+        assert "mailto:justice.linderman@gmail.com" in html and "example-report.txt" in html, "QA email/report route missing"
     if route == "studio/":
         assert "../demo/detailflow/" in html, "Studio demo link missing"
         assert "../portfolio/facility-console/" in html, "Studio original-portfolio link missing"

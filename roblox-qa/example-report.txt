@@ -1,0 +1,20 @@
+COSIE ROBLOX QA — SAMPLE ISSUE REPORT FORMAT
+SYNTHETIC EXAMPLE ONLY. NOT A REAL CUSTOMER TEST OR VERIFIED BUG.
+
+Project: Example Obby (fictional)
+Build: sample-review-01 (fictional)
+Test device: desktop keyboard (example)
+Scenario: Rejoin at checkpoint #2
+Observed: [Describe only a behavior actually reproduced during paid work]
+Expected: [Agreed behavior]
+Reproduce:
+  1. [Exact action]
+  2. [Exact game state]
+  3. [Observed result]
+Occurrences: [x of y real attempts]
+Severity: [Blocker/High/Medium/Low]
+Screenshot or video: [approved filename or none]
+Untested scope: [full list]
+Recommended next check: [exact step]
+
+This document is only a writing template. It is NOT a report on any game.
