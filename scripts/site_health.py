@@ -152,8 +152,14 @@ for route in ROUTES:
         assert "../demo/detailflow/" in html, "Store demo link missing"
     if route in ("guides/roblox-release-checklist/", "guides/n8n-webhook-reliability/"):
         assert document.forms == 0 and not document.scripts, "Education page unexpectedly collects data or executes scripts"
-        assert "No" in html or "no" in html, "Guide disclosures missing"
-        assert "mailto:justice.linderman@gmail.com" not in html or "NO CHECKOUT" not in html, "Guides should not masquerade as checkouts"
+        assert "No" in html or "no" in html, "Guide text missing"
+        assert "https://buy.stripe.com" not in html and "checkout.shopify.com" not in html, "Guide must not activate checkout"
+        if route == "guides/roblox-release-checklist/":
+            assert "../../roblox-qa/" in html and "../../creatorops/checker/" in html, "Roblox guide lacks useful next steps"
+            assert "not Roblox certification" in html.lower() or "not roblox certification" in html.lower(), "Roblox guide lacks independence disclosure"
+        else:
+            assert "../../services/n8n/" in html and "../../tools/workflow-preflight/" in html, "Automation guide lacks useful next steps"
+            assert "not proof of a deployed customer crm" in html.lower(), "Automation guide implies client acceptance"
     if route == "roblox-qa/":
         assert document.forms == 0 and not document.scripts, "QA service page unexpectedly collects data or loads scripts"
         assert "NO CHECKOUT" in html and "1,500 Robux" not in html, "QA payment/readiness gate changed"
