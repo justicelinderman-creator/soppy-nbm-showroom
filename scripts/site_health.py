@@ -9,8 +9,8 @@ from pathlib import Path
 import time
 
 BASE = "https://justicelinderman-creator.github.io/soppy-nbm-showroom/"
-ROUTES = ("", "game-assets/", "services/", "services/n8n/", "roblox-qa/", "tools/workflow-preflight/", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html", "portfolio/facility-console/", "creatorops/", "creatorops/checker/")
-INDEXABLE = {"", "game-assets/", "services/", "services/n8n/", "roblox-qa/", "tools/workflow-preflight/", "free/", "studio/", "portfolio/facility-console/", "creatorops/", "creatorops/checker/"}
+ROUTES = ("", "game-assets/", "services/", "services/n8n/", "roblox-qa/", "guides/roblox-release-checklist/", "guides/n8n-webhook-reliability/", "tools/workflow-preflight/", "store/", "studio/", "free/", "demo/detailflow/", "privacy.html", "portfolio/facility-console/", "creatorops/", "creatorops/checker/")
+INDEXABLE = {"", "game-assets/", "services/", "services/n8n/", "roblox-qa/", "guides/roblox-release-checklist/", "guides/n8n-webhook-reliability/", "tools/workflow-preflight/", "free/", "studio/", "portfolio/facility-console/", "creatorops/", "creatorops/checker/"}
 
 class PublicHTML(HTMLParser):
     def __init__(self):
@@ -59,6 +59,8 @@ def wait_for_release():
     expected = {route: (root / source).read_text(encoding="utf-8") for route, source in (
         ("studio/", "studio/index.html"),
         ("roblox-qa/", "roblox-qa/index.html"),
+        ("guides/roblox-release-checklist/", "guides/roblox-release-checklist/index.html"),
+        ("guides/n8n-webhook-reliability/", "guides/n8n-webhook-reliability/index.html"),
         ("roblox-qa/example-report.txt", "roblox-qa/example-report.txt"),
         ("services/", "services/index.html"),
         ("services/n8n/", "services/n8n/index.html"),
@@ -97,6 +99,8 @@ def wait_for_release():
                 and "<urlset" in sitemap_latest
                 and BASE + "studio/" in sitemap_latest
                 and BASE + "roblox-qa/" in sitemap_latest
+                and BASE + "guides/roblox-release-checklist/" in sitemap_latest
+                and BASE + "guides/n8n-webhook-reliability/" in sitemap_latest
                 and BASE + "portfolio/facility-console/" in sitemap_latest
                 and BASE + "creatorops/" in sitemap_latest
                 and BASE + "creatorops/checker/" in sitemap_latest), "Core release pages are not ready"
@@ -123,6 +127,8 @@ assert BASE + "creatorops/" in sitemap_latest, "Studio Companion educational pre
 assert BASE + "creatorops/checker/" in sitemap_latest, "Useful XML checker missing from sitemap"
 assert BASE + "store/" not in sitemap_latest, "Unready checkout listed as indexable"
 assert BASE + "roblox-qa/" in sitemap_latest, "Scoped QA service inquiry route missing from sitemap"
+assert BASE + "guides/roblox-release-checklist/" in sitemap_latest, "Roblox learning page missing from sitemap"
+assert BASE + "guides/n8n-webhook-reliability/" in sitemap_latest, "Automation education page missing from sitemap"
 
 checked = set()
 for route in ROUTES:
@@ -144,6 +150,16 @@ for route in ROUTES:
     if route == "store/":
         assert "Checkout not active" in html, "Store checkout gate missing"
         assert "../demo/detailflow/" in html, "Store demo link missing"
+    if route in ("guides/roblox-release-checklist/", "guides/n8n-webhook-reliability/"):
+        assert document.forms == 0 and not document.scripts, "Education page unexpectedly collects data or executes scripts"
+        assert "No" in html or "no" in html, "Guide text missing"
+        assert "https://buy.stripe.com" not in html and "checkout.shopify.com" not in html, "Guide must not activate checkout"
+        if route == "guides/roblox-release-checklist/":
+            assert "../../roblox-qa/" in html and "../../creatorops/checker/" in html, "Roblox guide lacks useful next steps"
+            assert "not Roblox certification" in html.lower() or "not roblox certification" in html.lower(), "Roblox guide lacks independence disclosure"
+        else:
+            assert "../../services/n8n/" in html and "../../tools/workflow-preflight/" in html, "Automation guide lacks useful next steps"
+            assert "proof of a deployed customer crm" in html.lower() and "<em>not</em>" in html.lower(), "Automation guide implies client acceptance"
     if route == "roblox-qa/":
         assert document.forms == 0 and not document.scripts, "QA service page unexpectedly collects data or loads scripts"
         assert "NO CHECKOUT" in html and "1,500 Robux" not in html, "QA payment/readiness gate changed"

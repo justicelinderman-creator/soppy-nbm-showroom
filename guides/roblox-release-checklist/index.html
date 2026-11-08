@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://justicelinderman-creator.github.io/soppy-nbm-showroom/guides/roblox-release-checklist/">
+<title>Roblox Release QA Checklist: 10 Tests Before Launch | Cosie</title>
+<meta name="description" content="Practical Roblox QA checklist: multiplayer replication, respawning, mobile layouts, collision, scene performance and reproducible bug reports.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="10 Roblox release checks worth doing before launch">
+<meta property="og:description" content="A practical pre-launch testing checklist with official Studio tools, a free local XML checker, and honest issue-report examples.">
+<meta property="og:url" content="https://justicelinderman-creator.github.io/soppy-nbm-showroom/guides/roblox-release-checklist/">
+<link rel="stylesheet" href="../../assets/site.css">
+<style>
+:root{color-scheme:dark}
+main{min-height:80vh}.guide-hero{padding:72px 0 54px}.guide-hero h1{font-size:clamp(42px,7vw,82px);line-height:1.02;letter-spacing:-.065em;max-width:920px;margin:16px 0 26px}
+.guide-hero .lead{max-width:850px}.eyebrow{letter-spacing:.13em}
+.guide-content{display:grid;grid-template-columns:minmax(0,1fr) minmax(225px,295px);gap:33px;align-items:start}
+.guide-steps{margin:0;padding:0;list-style:none;counter-reset:qa}
+.guide-steps>li{counter-increment:qa;position:relative;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:24px 23px 21px 64px;margin-bottom:14px}
+.guide-steps>li:before{content:counter(qa);position:absolute;top:22px;left:19px;width:29px;height:29px;display:grid;place-items:center;border-radius:50%;border:1px solid #8acb91;color:var(--lime);font-weight:900}
+.guide-steps h2{font-size:22px;line-height:1.25;margin:0 0 8px}.guide-steps p{font-size:15px;color:#cad5c8;margin:0 0 8px}
+.guide-steps small{font-size:12px;color:var(--muted)}
+.guide-aside{border:1px solid var(--line);border-radius:12px;padding:23px;background:var(--panel);position:sticky;top:95px}
+.guide-aside h2{font-size:21px;margin:0 0 13px}.guide-aside a{display:block;margin:10px 0;overflow-wrap:anywhere}
+.guide-footer{padding:52px 0}.guide-note{border-left:3px solid var(--lime);padding:17px 20px;background:#13231a;margin:26px 0;color:#d5e7d3}
+.copy-template{width:100%;min-height:240px;padding:17px;border:1px solid #526d59;border-radius:10px;background:#09140e;color:#e2ebe0;font:13px/1.55 ui-monospace,Consolas,monospace}
+@media(max-width:760px){.guide-content{grid-template-columns:1fr}.guide-aside{position:static}.guide-hero{padding-top:48px}.guide-steps>li{padding:21px 16px 18px 58px}}
+@media print{header,.btns,footer,.guide-aside{display:none!important}body{background:#fff;color:#111}.guide-content{display:block}.guide-steps>li{break-inside:avoid;background:#fff;color:#111;border-color:#999}.guide-steps p{color:#111}}
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link" style="position:absolute;left:-9999px">Skip to checklist</a>
+<div class="alert">COSIE CREATOR EDUCATION · FREE ROBLOX RELEASE QA GUIDE · NO SIGNUP</div>
+<header><div class="shell nav"><a class="logo" href="../../">SOPPY <em>×</em> COSIE</a><nav class="navlinks" aria-label="Navigation">
+<a href="../../creatorops/checker/">Free Release Radar</a><a href="../../roblox-qa/">Scoped QA service</a><a href="../../game-assets/">Game assets</a><a href="../../privacy.html">Privacy</a>
+</nav></div></header>
+<main id="main">
+<section class="guide-hero"><div class="shell">
+<p class="eyebrow">ONE CLEAR TEST AT A TIME</p>
+<h1>DON'T GUESS.<br><em>PLAYTEST.</em></h1>
+<p class="lead">Ten useful checks for indie Roblox creators before a major update. Each check should produce an observable result or a reproducible issue—not a claim your game is bug-free.</p>
+<div class="btns"><a class="btn" href="#checklist">Use the checklist</a><a class="btn dark" href="../../creatorops/checker/">Try the free XML scene checker</a><a class="btn dark" href="../../roblox-qa/">Discuss a paid QA review</a></div>
+<p class="fine">Independent educational guidance, not Roblox certification or a guarantee of release performance. Official Studio testing documentation is linked below.</p>
+</div></section>
+<section class="section" id="checklist"><div class="shell guide-content">
+<div>
+<ol class="guide-steps">
+<li><h2>Test a disposable copy</h2><p>Save a versioned copy before changes. Note the exact build and testing date, so any finding can be reproduced against the same version.</p><small>Record: place version, branch and test scope.</small></li>
+<li><h2>Run normal solo play</h2><p>Use Studio Test (F5) and walk through joining, moving, interacting, opening menus, restarting and leaving. Check both the client and server Output views for errors.</p><small>Record: steps, visible failures and exact error locations.</small></li>
+<li><h2>Verify client versus server ownership</h2><p>Inspect whether critical gameplay rules are enforced by the server rather than trusting a local GUI. For a checkpoint system, test skipping intermediate checkpoints as well as normal progression.</p><small>Record: valid and deliberately invalid interactions.</small></li>
+<li><h2>Test with two simulated clients</h2><p>Use Studio's Server &amp; Clients option (F7). Compare each player's HUD, team, score and actions. One player's action should not silently overwrite another player's progress.</p><small>Record: two-client actions and each observed state.</small></li>
+<li><h2>Respawn, reset and disconnect</h2><p>Reset a character mid-action, respawn during a round and rejoin if the game requires persistent progress. Verify that live UI, tools and state return to the intended condition.</p><small>Record: any duplicated HUDs, lost states or stuck cameras.</small></li>
+<li><h2>Simulate a smaller phone</h2><p>Use Device Simulator to check button visibility, touch targets, safe-area layout, on-screen keyboard and orientation. Check the real device separately before claiming mobile acceptance.</p><small>Record: device preset, resolution and obstructed controls.</small></li>
+<li><h2>Check collisions and reachable routes</h2><p>Walk each gameplay route, test jumps and cover, and inspect invisible blockers, spawn traps and unintended shortcuts. Static scene analysis can suggest candidates but cannot replace actual traversal.</p><small>Record: coordinates or object paths for problem locations.</small></li>
+<li><h2>Observe real client and server cost</h2><p>Use Scene Analysis, Developer Console or MicroProfiler to find memory, object-count or frame-time anomalies. Don't invent FPS or performance improvements; use real measured values from the relevant test environment.</p><small>Record: device/runtime, measurement, sample conditions and regression.</small></li>
+<li><h2>Challenge the intended game flow</h2><p>Try starting a round with fewer participants, repeating actions quickly, joining late and leaving early. Check failure handling, not only the best-case path.</p><small>Record: exact conditions and outcome, with an approved screenshot if useful.</small></li>
+<li><h2>Hand off a reproducible report</h2><p>For each confirmed issue, provide expected versus observed results, 1–3 reproduction steps, version, client count, frequency, severity, screenshot and what was not tested. Mark suspected issues as unverified.</p><small>Record: actionable facts without inventing findings.</small></li>
+</ol>
+<div class="guide-note"><strong>Free versus professional testing:</strong> <a href="../../creatorops/checker/">Cosie Release Radar</a> checks exported .rbxlx/.rbxmx XML locally in the browser; it does not inspect live gameplay or scripts. For an agreed multiplayer/device test, see <a href="../../roblox-qa/">our QA inquiry service</a>.</div>
+<h2>Copyable bug-report format</h2>
+<textarea class="copy-template" readonly spellcheck="false" aria-label="Bug report template">Project and version:
+Authorized test device, viewport and client count:
+Scenario:
+Observed:
+Expected:
+Reproduction steps:
+1.
+2.
+3.
+Frequency:
+Priority:
+Evidence (if approved):
+What was NOT tested:
+Next check:</textarea>
+</div>
+<aside class="guide-aside" aria-label="Sources and tools">
+<h2>Official testing references</h2>
+<a href="https://create.roblox.com/docs/studio/testing-modes" rel="noopener noreferrer">Roblox Studio testing modes</a>
+<a href="https://create.roblox.com/docs/performance-optimization/scene-analysis" rel="noopener noreferrer">Scene Analysis</a>
+<a href="https://create.roblox.com/docs/performance-optimization/identify" rel="noopener noreferrer">Performance diagnostics</a>
+<h2 style="margin-top:24px">Cosie tools</h2>
+<a href="../../creatorops/checker/">Free local scene inspection</a>
+<a href="../../roblox-qa/">Request an authorized QA scope</a>
+<a href="../../services/">Other game-development services</a>
+<p class="fine">No account or file upload is required to read this guide.</p>
+</aside>
+</div></section></main>
+<footer><div class="shell footer"><span>© 2026 Cosie Originals. Independent developer education.</span><span>No checkout, tracking or uploaded files on this page.</span></div></footer>
+</body></html>

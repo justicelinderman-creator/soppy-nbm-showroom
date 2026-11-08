@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://justicelinderman-creator.github.io/soppy-nbm-showroom/guides/n8n-webhook-reliability/">
+<title>n8n Lead Intake & Webhook Reliability Checklist | Cosie</title>
+<meta name="description" content="Eight checks for n8n forms and lead automation: validation, consent, duplicate prevention, retries, errors, approval gates, staged QA and handoff.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Before your n8n lead flow goes live: 8 checks">
+<meta property="og:description" content="Test validation, duplicates, replay rules, errors and approvals in a safe environment before connecting real customer data.">
+<meta property="og:url" content="https://justicelinderman-creator.github.io/soppy-nbm-showroom/guides/n8n-webhook-reliability/">
+<link rel="stylesheet" href="../../assets/site.css">
+<style>
+.check-hero{padding:75px 0 56px}.check-hero h1{font-size:clamp(44px,8vw,86px);line-height:1.01;max-width:940px;letter-spacing:-.07em;margin:18px 0 26px}.check-hero .lead{max-width:800px}
+.check-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:17px}
+.check-card{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:25px}
+.check-card h2{font-size:22px;margin:0 0 13px}.check-card p{color:#d0d8cd;margin:0 0 12px}.check-card span{color:var(--lime);font-size:11px;font-weight:900;letter-spacing:.12em}
+.check-note{margin-top:22px;border-left:3px solid var(--lime);padding:18px;background:#14251a;color:#d2e2ce}
+.check-refs{padding:46px 0;border-top:1px solid var(--line)}.check-refs a{display:inline-block;margin:0 16px 12px 0}
+@media(max-width:700px){.check-grid{grid-template-columns:1fr}.check-card{padding:20px}.check-hero{padding-top:47px}}
+</style>
+</head>
+<body>
+<div class="alert">COSIE · AUTOMATION EDUCATION · FREE CHECKLIST · NO DATA COLLECTION</div>
+<header><div class="shell nav"><a class="logo" href="../../">SOPPY <em>×</em> COSIE</a><nav class="navlinks" aria-label="Navigation"><a href="../../services/n8n/">n8n repair service</a><a href="../../tools/workflow-preflight/">Free JSON preflight</a><a href="../../studio/">Website inquiry pilots</a><a href="../../privacy.html">Privacy</a></nav></div></header>
+<main>
+<section class="check-hero"><div class="shell">
+<p class="eyebrow">MAKE THE FAILURE VISIBLE BEFORE IT REACHES A CUSTOMER</p>
+<h1>YOUR AUTOMATION<br><em>NEEDS A REPLAY PLAN.</em></h1>
+<p class="lead">A lead form can appear to work while quietly duplicating records or losing requests. Use this checklist to test how a proposed n8n intake workflow handles the unexpected, before connecting real people or sending messages.</p>
+<div class="btns"><a class="btn" href="#checks">Review the eight checks</a><a class="btn dark" href="../../tools/workflow-preflight/">Open free workflow preflight</a><a class="btn dark" href="../../services/n8n/">Discuss a scoped repair</a></div>
+<p class="fine">This is educational guidance, not a claim that Cosie has already integrated with your CRM, Google Workspace or production email system.</p>
+</div></section>
+<section class="section" id="checks"><div class="shell">
+<h2>BEFORE YOU <em>TURN IT ON.</em></h2>
+<div class="check-grid">
+<article class="check-card"><span>01 / INPUTS</span><h2>Define one entry route</h2><p>Agree whether the workflow receives an n8n form, website webhook or approved application event. Name the mandatory fields and reject malformed payloads before any action is attempted.</p><p class="fine">Test: valid, missing and invalid fields.</p></article>
+<article class="check-card"><span>02 / IDENTITY</span><h2>Decide what "duplicate" means</h2><p>Email normalization is not the same as a durable exactly-once guarantee. Specify a key, replay window, storage, retention and what happens after a server restart.</p><p class="fine">Test: repeated submissions, case variations and restart replay.</p></article>
+<article class="check-card"><span>03 / PERMISSION</span><h2>Keep customer contact consent separate</h2><p>An incoming form is not blanket permission to send marketing. Record the customer's allowed contact purpose and use an approval step before any new outbound route is activated.</p><p class="fine">Test: no consent, withdrawn consent and authorized acknowledgment.</p></article>
+<article class="check-card"><span>04 / ERROR HANDLING</span><h2>Make rejection visible</h2><p>Use explicit branches for missing credentials, invalid payloads, timeouts and API errors. Do not silently mark a partial flow successful.</p><p class="fine">Test: rejected request, expired token and failed destination.</p></article>
+<article class="check-card"><span>05 / RETRIES</span><h2>Retry only with a known contract</h2><p>Repeated POST requests can create duplicate side effects. Confirm the target service's idempotency and retry semantics. Uncertain network outcomes need reconciliation before reattempting.</p><p class="fine">Test: temporary 429/503, repeated delivery and ambiguous timeouts.</p></article>
+<article class="check-card"><span>06 / OUTPUTS</span><h2>Read back the accepted result</h2><p>An HTTP success code does not prove a record reached the correct destination. Inspect an approved staging table or verified receipt with the expected record identity and number of items.</p><p class="fine">Test: complete, missing, duplicate and partially written destination.</p></article>
+<article class="check-card"><span>07 / PRIVACY</span><h2>Minimize and protect information</h2><p>Use synthetic inputs in demonstrations. Keep real API credentials out of Git history and external proposals. Avoid logging customer email, secrets or payloads unnecessarily.</p><p class="fine">Test: redacted exports, safe error logs and least-privilege access.</p></article>
+<article class="check-card"><span>08 / HANDOFF</span><h2>Keep the owner in control</h2><p>Document setup, required accounts, configuration and rollback steps. The client should know what happens on a failure and how to disable a misbehaving workflow without losing evidence.</p><p class="fine">Test: staged deployment, rollback and owner review of all outbound changes.</p></article>
+</div>
+<p class="check-note"><strong>Working example and its limit:</strong> Cosie has an independent n8n reliability walkthrough using isolated synthetic services and documented replay/error tests. That is a technical work sample, <em>not</em> proof of a deployed customer CRM, buyer savings, or autonomous email system. <a href="../../services/">View the disclosed sample and its evidence</a>.</p>
+</div></section>
+<section class="check-refs"><div class="shell">
+<h2>TOOLS AND THE NEXT STEP</h2>
+<div class="btns"><a class="btn" href="../../tools/workflow-preflight/">Free local JSON checker</a><a class="btn dark" href="../../services/n8n/">Review the scoped n8n service</a><a class="btn dark" href="../../studio/">Website inquiry-flow service</a></div>
+<p class="body">For node behavior and production setup, use <a href="https://docs.n8n.io/workflows/" rel="noopener noreferrer">n8n's official workflow documentation</a> and <a href="https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.httprequest/" rel="noopener noreferrer">HTTP Request node documentation</a>.</p>
+<p class="fine">No form submissions, customer records, API calls or payment collection occur on this guide.</p>
+</div></section>
+</main>
+<footer><div class="shell footer"><span>© 2026 SOPPY × NBM / Cosie Originals.</span><span>Source-backed independent education, not a client case study.</span></div></footer>
+</body></html>
