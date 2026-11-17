@@ -29,7 +29,7 @@ class LaunchTest(unittest.TestCase):
             self.assertEqual(page.meta.get("robots"),"index,follow")
             self.assertEqual(page.canon,[BASE+("/studio/" if name=="studio" else "/portfolio/facility-console/")])
     def test_prelaunch_store_not_indexed(self):
-        self.assertEqual(self.pages["home"][1].meta.get("robots"),"noindex,nofollow")
+        self.assertEqual(self.pages["home"][1].meta.get("robots"),"index,follow,max-image-preview:large")
         store=ROOT/"store/index.html"
         if store.exists():
             p=Tags();p.feed(store.read_text(encoding="utf8"))
@@ -73,8 +73,15 @@ class LaunchTest(unittest.TestCase):
     def test_sitemap_exact_urls(self):
         tree=ET.parse(ROOT/"sitemap.xml")
         locations=[t.text for t in tree.findall(".//{http://www.sitemaps.org/schemas/sitemap/0.9}loc")]
-        self.assertEqual(locations,[BASE+"/free/",BASE+"/studio/",BASE+"/portfolio/facility-console/",BASE+"/creatorops/",BASE+"/creatorops/checker/"])
-        self.assertEqual(len(set(locations)),5)
+        for route in ("/","/services/n8n/","/tools/workflow-preflight/","/creatorops/checker/"):
+            self.assertIn(BASE+route, locations)
+        self.assertGreaterEqual(len(locations),14)
+        self.assertEqual(len(locations),len(set(locations)))
+        for url in locations:
+            self.assertTrue(url.startswith(BASE+"/"))
+            relative=url[len(BASE)+1:]
+            target=(ROOT/relative/"index.html") if not relative or relative.endswith("/") else (ROOT/relative)
+            self.assertTrue(target.is_file(),f"Sitemap target not present: {relative}")
     def test_no_outbound_marketing(self):
         for key in ("portfolio","studio"):
             t,p=self.pages[key]
