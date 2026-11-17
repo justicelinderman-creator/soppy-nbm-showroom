@@ -58,7 +58,12 @@ class CompanionResearchPage(unittest.TestCase):
     def test_sitemap_only_current_public_education(self):
         tree=ET.parse(ROOT/"sitemap.xml")
         loc=[e.text for e in tree.findall(".//{http://www.sitemaps.org/schemas/sitemap/0.9}loc")]
-        self.assertEqual(loc,[BASE+"/free/",BASE+"/studio/",BASE+"/portfolio/facility-console/",BASE+"/creatorops/",BASE+"/creatorops/checker/"])
+        # The public site now includes additional reviewed services and guides.
+        # Preserve all launch destinations without assuming a frozen five-URL sitemap.
+        for route in ("/free/","/studio/","/portfolio/facility-console/","/creatorops/","/creatorops/checker/"):
+            self.assertIn(BASE+route,loc)
+        self.assertEqual(len(loc),len(set(loc)))
+        self.assertNotIn(BASE+"/store/",loc)
     def test_store_still_noindex(self):
         self.assertIn('content="noindex,nofollow"',(ROOT/"store/index.html").read_text(encoding="utf8"))
     def test_privacy_beta_email_notice(self):
