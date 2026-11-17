@@ -57,15 +57,16 @@ def run_health(route=None,until=0,kind='wrong',request_seconds=0,script=SCRIPT):
     return {'error':error,'elapsed':clock.now,'sleeps':clock.sleeps,'requests':server.requests,'stdout':stdout.getvalue()}
 
 class DeploymentReadinessTests(unittest.TestCase):
+    # Matches the current scripts/site_health.py 240-second deployment budget and 16 verified routes.
     def success(self,result):
         self.assertIsNone(result['error'],result)
-        self.assertEqual(sum(line.startswith('PASS ') for line in result['stdout'].splitlines()),11)
+        self.assertEqual(sum(line.startswith('PASS ') for line in result['stdout'].splitlines()),16)
         self.assertIn('PASS: public navigation',result['stdout'])
     def expired(self,result):
         self.assertIsNotNone(result['error'],result)
         self.assertEqual(result['error']['type'],'AssertionError')
         self.assertIn('did not finish publishing',result['error']['message'])
-        self.assertLessEqual(result['elapsed'],90)
+        self.assertLessEqual(result['elapsed'],240)
         self.assertNotIn('PASS ',result['stdout'])
     def test_current_release_passes_without_sleep(self):
         r=run_health();self.success(r);self.assertEqual(r['sleeps'],[])
@@ -90,16 +91,16 @@ class DeploymentReadinessTests(unittest.TestCase):
         r=run_health(kind='network_timeout',request_seconds=18);self.expired(r)
         self.assertTrue(all(0<x['timeout']<=18 for x in r['requests']))
     def test_publication_just_before_deadline_can_pass(self):
-        r=run_health('studio/',85,'old_studio');self.success(r);self.assertEqual(r['elapsed'],85)
+        r=run_health('studio/',235,'old_studio');self.success(r);self.assertEqual(r['elapsed'],235)
     def test_publication_at_deadline_does_not_extend_budget(self):
-        self.expired(run_health('studio/',90,'old_studio'))
+        self.expired(run_health('studio/',240,'old_studio'))
     def test_unrelated_health_failures_remain_failures(self):
         r=run_health('store/',1000,'unsafe_store')
         self.assertEqual(r['error']['message'],'Store checkout gate missing')
         self.assertEqual(r['sleeps'],[])
     def test_request_timeout_is_capped_by_remaining_budget(self):
         r=run_health('assets/inquiry.js',1000,request_seconds=8);self.expired(r)
-        self.assertTrue(all(x['timeout']<=90-x['at'] for x in r['requests']))
+        self.assertTrue(all(x['timeout']<=240-x['at'] for x in r['requests']))
         self.assertTrue(any(x['timeout']<18 for x in r['requests']))
 
 if __name__=='__main__':unittest.main()
